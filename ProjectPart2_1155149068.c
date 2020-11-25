@@ -13,24 +13,22 @@
  * policy and regulations, as contained in the website.
  *
  * University Guideline on Academic Honesty:
- *   https://www.cuhk.edu.hk/policy/academichonesty/
+ * https://www.cuhk.edu.hk/policy/academichonesty/
  *
- * Student Name  : Sze-To Kwok Leung
- * Student ID    : 1155149068
+ * Student Name : SZE-TO Kwok Leung
+ * Student ID : 1155149068
  * Class/Section : D
- * Date          : 02-Nov-2020
+ * Date : 25-Nov-2020
  */
 
 #include <stdio.h>
-/* NO other header files are allowed */
-
-/* NO global variables are allowed */
 
 /* Macros used to represent the state of each square */
 #define EMPTY 0
 #define CIRCLE 1
 #define CROSS 2
 
+#pragma region Tik - Tac - Toe
 /* Initialize the game board by setting all nine squares to EMPTY */
 void initGameBoard(int gameBoard[3][3])
 {
@@ -42,12 +40,6 @@ void initGameBoard(int gameBoard[3][3])
         }
     }
 }
-
-/* Display the game board on the screen
-   In Part 1, you are required to follow exactly the output format stated in the project specification
-   You are welcome to design and implement a better one in Part 2
-   IMPORTANT: Using other output format in Part 1 will result in mark deduction
-              If you have a better one, please use them in Part 2 instead */
 
 // Get the number of the squre by the array index.
 int getPositionByIndex(int row, int col)
@@ -113,9 +105,6 @@ void printGameBoard(int gameBoard[3][3])
     printf("=========\n");
 }
 
-/* Ask the human player to place the mark.
-   In Part 1, you can assume that the user input must be valid (i.e, an empty space between 1 and 9).
-   You are welcome to perform error checking in Part 2. */
 void placeMarkByHumanPlayer(int gameBoard[3][3], int mark)
 {
     int pos = -1, row, col;
@@ -179,13 +168,6 @@ int isFull(int gameBoard[3][3])
     return 1;
 }
 
-/* Determine the next move of the computer player.
-   In Part 1, you are required to implement the following naive strategy:
-   place the mark in the first empty space scanning from 1 to 9.
-   You are welcome to design and implement better strategies in Part 2.
-   IMPORTANT: Using other strategies in Part 1 will result in mark deduction.
-              If you have better strategies, please use them in Part 2 instead. */
-
 // Place the mark in the first empty space by the computer player
 void placeMarkByComputerPlayer(int gameBoard[3][3])
 {
@@ -204,6 +186,7 @@ void placeMarkByComputerPlayer(int gameBoard[3][3])
         }
     }
 }
+#pragma endregion
 
 /* The main function */
 int main()
