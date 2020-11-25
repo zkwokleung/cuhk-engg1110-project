@@ -28,6 +28,19 @@
 #define CIRCLE 1
 #define CROSS 2
 
+#pragma region Generic
+typedef struct s_vector2
+{
+    int x, y;
+} Vector2;
+
+Vector2 newVector2(int x, int y)
+{
+    Vector2 v = {x, y};
+    return v;
+}
+#pragma endregion
+
 #pragma region Tik - Tac - Toe
 /* Initialize the game board by setting all nine squares to EMPTY */
 void initGameBoard(int gameBoard[3][3])
