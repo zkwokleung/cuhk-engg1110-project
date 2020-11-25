@@ -162,9 +162,8 @@ int hasWinner(int gameBoard[3][3])
     return 0;
 }
 
-/* Return 1 if the game board is full, otherwise return 0 */
-
 // Check if the game board is full
+/* Return 1 if the game board is full, otherwise return 0 */
 int isFull(int gameBoard[3][3])
 {
     for (int i = 0; i < 3; i++)
