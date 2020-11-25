@@ -22,36 +22,62 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /* Macros used to represent the state of each square */
 #define EMPTY 0
 #define CIRCLE 1
 #define CROSS 2
 
-#pragma region Generic
-typedef struct s_vector2
+#pragma region Generic Utilities
+typedef struct s_position
 {
-    int x, y;
-} Vector2;
+    int row, col;
+} Position;
 
-Vector2 newVector2(int x, int y)
+Position newPosition(int row, int col)
 {
-    Vector2 v = {x, y};
+    Position v = {row, col};
     return v;
 }
 #pragma endregion
 
-#pragma region Tik - Tac - Toe
-/* Initialize the game board by setting all nine squares to EMPTY */
-void initGameBoard(int gameBoard[3][3])
+#pragma region TikTacToe - GameBoard
+typedef struct GameBoard
 {
+    int board[3][3]; // The game board
+    int marked;      // how many squares are marked.
+} GameBoard;
+
+// Create and return a new Game Board
+GameBoard newGameBoard()
+{
+    GameBoard gb = {{EMPTY}, 0};
+
+    return gb;
+}
+
+/* Initialize the game board by setting all nine squares to EMPTY */
+void initGameBoard(GameBoard *gameBoard)
+{
+    // Init the board
     for (int i = 0; i < 3; i++)
     {
         for (int j = 0; j < 3; j++)
         {
-            gameBoard[i][j] = EMPTY;
+            gameBoard->board[i][j] = EMPTY;
         }
     }
+
+    // Init the fields
+    gameBoard->marked = 0;
+}
+
+// Get the mark from the board
+int getMark(GameBoard *gameBoard, Position pos)
+{
+    return gameBoard->board[pos.col][pos.row];
 }
 
 // Get the number of the squre by the array index.
@@ -87,7 +113,7 @@ int getColumnByPosition(int num)
 }
 
 // Print the game board
-void printGameBoard(int gameBoard[3][3])
+void printGameBoard(GameBoard *gameBoard)
 {
     printf("=========\n");
     // Start from the last row
@@ -96,19 +122,16 @@ void printGameBoard(int gameBoard[3][3])
         // Start from the frist col
         for (int col = 0; col < 3; col++)
         {
-            if (gameBoard[row][col] == EMPTY)
+            if (gameBoard->board[row][col] == EMPTY) // Empty. Print out the number
             {
-                // Empty. Print out the number
                 printf("|%d|", getPositionByIndex(row, col));
             }
-            else if (gameBoard[row][col] == CIRCLE)
+            else if (gameBoard->board[row][col] == CIRCLE) // Circle. Print 'O'
             {
-                // Circle. Print 'O'
                 printf("|O|");
             }
-            else if (gameBoard[row][col] == CROSS)
+            else if (gameBoard->board[row][col] == CROSS) // Cross. Print 'X'
             {
-                // CROWW. Print 'X'
                 printf("|X|");
             }
         }
@@ -116,6 +139,13 @@ void printGameBoard(int gameBoard[3][3])
         printf("\n");
     }
     printf("=========\n");
+}
+
+// Base function of placing a mark on a board
+void placeMark(GameBoard *gameBoard, int row, int col, int mark)
+{
+    // Mark the game board
+    gameBoard->board[row][col] = mark;
 }
 
 void placeMarkByHumanPlayer(int gameBoard[3][3], int mark)
