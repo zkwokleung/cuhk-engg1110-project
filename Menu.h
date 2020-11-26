@@ -4,6 +4,11 @@
 
 #ifndef MENU
 #define MENU
+#pragma region prototypes
+void StartMainMenu();
+void StartNewGameMenu();
+#pragma endregion
+
 // Main Menu
 void printMainMenu()
 {
@@ -23,7 +28,7 @@ void evaluateMainMenuInput(int input)
     switch (input)
     {
     case 1:
-
+        StartNewGameMenu();
         break;
 
     case 2:

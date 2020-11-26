@@ -8,7 +8,7 @@ int getUserInput()
 {
     char ipt;
     printf("> ");
-    fgets(&ipt, 2, stdin);
+    fgets(&ipt, 1000, stdin);
 
     int result = ipt - '0';
     // printf("Debug: you entered %d", result);
@@ -32,7 +32,7 @@ int getUserConfirm()
     char ipt;
 
     printf("Are you sure? (Y/N) > ");
-    fgets(&ipt, 2, stdin);
+    fgets(&ipt, 20, stdin);
 
     switch (ipt)
     {
