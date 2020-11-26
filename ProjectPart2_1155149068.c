@@ -24,6 +24,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "Menu.h"
 
 /* Macros used to represent the state of each square */
 #define EMPTY 0
@@ -219,89 +220,6 @@ void placeMarkByComputerPlayer(GameBoard *gameBoard)
 /* The main function */
 int main()
 {
-    /* Local variables */
-    int gameBoard[3][3];   // Each element stores 0 (EMPTY), 1 (CIRCLE), or 2 (CROSS)
-    int currentPlayer;     // 1: Player 1 (Human)   2: Player 2 (Human) or Computer Player
-    int gameEnds;          // 0: The game continues   1: The game ends
-    int numOfHumanPlayers; // 1 or 2
-
-    /* Initialize the local variables by invoking a function, using assignment statements, and reading the user input */
-    initGameBoard(gameBoard);
-    currentPlayer = 1;
-    gameEnds = 0;
-    printf("How many human players [1-2]?\n");
-    scanf("%d", &numOfHumanPlayers); // In Part 1, you can assume that the user input must be valid
-
-    /* Game start
-       If there are two human players, they are Player 1 and Player 2
-       If there is only one human player, he/she is Player 1 and another player is the computer player
-       For both cases, Player 1 moves first and places the CIRCLE mark; while Player 2 (or the computer player) places the CROSS mark
-    */
-
-    while (!gameEnds)
-    {
-        printGameBoard(gameBoard);
-
-        if (currentPlayer == 1)
-        {
-            // Human
-            printf("Player 1, please place your mark [1-9]:\n");
-            placeMarkByHumanPlayer(gameBoard, CIRCLE);
-        }
-        else
-        {
-            if (numOfHumanPlayers == 1)
-            {
-                // Computer
-                placeMarkByComputerPlayer(gameBoard);
-            }
-            else
-            {
-                // Human 2
-                printf("Player 2, please place your mark [1-9]:\n");
-                placeMarkByHumanPlayer(gameBoard, CROSS);
-            }
-        }
-
-        // Determine whether the game is ended
-        gameEnds = isFull(gameBoard) || hasWinner(gameBoard);
-
-        // Next player
-        if (!gameEnds)
-            currentPlayer = (currentPlayer == 1) ? 2 : 1;
-    }
-
-    // End game
-    printGameBoard(gameBoard);
-
-    if (hasWinner(gameBoard))
-    {
-        if (currentPlayer == 1)
-        {
-            // Human player wins
-            printf("Player 1 wins! Congratulations!");
-        }
-        else
-        {
-            if (numOfHumanPlayers == 1)
-            {
-                // Computer wins
-                printf("Computer wins!");
-            }
-            else
-            {
-                // Player 2 wins
-                printf("Player 2 wins! Congratulations!");
-            }
-        }
-    }
-    else
-    {
-        // No one wins => Draw game
-        printf("Draw game!");
-    }
-
-    printf("\n");
-
+    printMainMenu();
     return 0;
 }
