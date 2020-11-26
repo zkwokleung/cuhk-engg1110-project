@@ -19,9 +19,12 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="main.c">
+		<Unit filename="Input.h" />
+		<Unit filename="Menu.h" />
+		<Unit filename="ProjectPart2_1155149068.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="TikTacToe.h" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
