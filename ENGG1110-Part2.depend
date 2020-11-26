@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1606399346 source:c:\git\engg1110 - codeblocks\engg1110-part2\projectpart2_1155149068.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Menu.h"
+	"Input.h"
+
+1606398892 c:\git\engg1110 - codeblocks\engg1110-part2\menu.h
+	<stdio.h>
+
+1606400085 c:\git\engg1110 - codeblocks\engg1110-part2\input.h
+	<stdio.h>
+
