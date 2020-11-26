@@ -15,6 +15,25 @@ void printMainMenu()
     printf("------------------------------\n");
 }
 
+// Evaluate the user input for the main menu
+void evaluateMainMenuInput(int input)
+{
+    switch (input)
+    {
+    case 1:
+
+        break;
+
+    case 2:
+
+        break;
+
+    case 0:
+
+        break;
+    }
+}
+
 // New Game MENU
 void printNewGameMenu()
 {
