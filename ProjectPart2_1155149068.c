@@ -74,42 +74,41 @@ void initGameBoard(GameBoard *gameBoard)
     gameBoard->marked = 0;
 }
 
+/* Return 1 if the game board is full, otherwise return 0 */
+int isFull(GameBoard *gameBoard)
+{
+    return gameBoard->marked == 9;
+}
+
 // Get the mark from the board
 int getMark(GameBoard *gameBoard, Position pos)
 {
     return gameBoard->board[pos.col][pos.row];
 }
 
+// Return true if the specific square is empty
+int isMarked(GameBoard *gameBoard, Position pos)
+{
+    return getMark(gameBoard, pos) == EMPTY;
+}
+
 // Get the number of the squre by the array index.
-int getPositionByIndex(int row, int col)
+int getNumberByPosition(Position pos)
 {
-    return 3 * row + col + 1;
+    return 3 * pos.row + pos.col + 1;
 }
 
-// Get the row index by the squre number.
-int getRowByPosition(int num)
+// Get the position on board by the squre number.
+Position getPositionByNumber(int num)
 {
     // Verify the input
     if (num < 1 || num > 9)
     {
         printf("Invalid square number!");
-        return -1;
+        return newPosition(-1, -1);
     }
 
-    return (num - 1) / 3;
-}
-
-// Get the column index by the squre number
-int getColumnByPosition(int num)
-{
-    // Verify the input
-    if (num < 1 || num > 9)
-    {
-        printf("Invalid square number!");
-        return -1;
-    }
-
-    return (num - 1) % 3;
+    return newPosition((num - 1) / 3, (num - 1) % 3);
 }
 
 // Print the game board
@@ -124,7 +123,7 @@ void printGameBoard(GameBoard *gameBoard)
         {
             if (gameBoard->board[row][col] == EMPTY) // Empty. Print out the number
             {
-                printf("|%d|", getPositionByIndex(row, col));
+                printf("|%d|", getNumberByPosition(newPosition(row, col)));
             }
             else if (gameBoard->board[row][col] == CIRCLE) // Circle. Print 'O'
             {
@@ -142,94 +141,81 @@ void printGameBoard(GameBoard *gameBoard)
 }
 
 // Base function of placing a mark on a board
-void placeMark(GameBoard *gameBoard, int row, int col, int mark)
+void placeMark(GameBoard *gameBoard, Position pos, int mark)
 {
     // Mark the game board
-    gameBoard->board[row][col] = mark;
+    gameBoard->board[pos.row][pos.col] = mark;
+
+    // Increase the count
+    gameBoard->marked++;
 }
 
-void placeMarkByHumanPlayer(int gameBoard[3][3], int mark)
+// Get and verify the input until a valid input is received
+int getInputFromPlayer()
 {
-    int pos = -1, row, col;
+    char *ipt;
 
-    // Get input from the player.
-    scanf("%d", &pos);
+    // Get Input
+    printf("Enter a number of an empty space: ");
+    fgets(ipt, 2, stdin);
 
-    row = getRowByPosition(pos);
-    col = getColumnByPosition(pos);
+    // Verify the Input
+    if (*ipt >= 1 && *ipt <= 9)
+    {
+        return *ipt;
+    }
 
-    // Mark the game board
-    gameBoard[row][col] = mark;
+    // Invalid Input.
+    printf("/////// Invalid input! //////// \n");
+    return getInputFromPlayer();
 }
 
-/* Return 1 if there is a winner in the game, otherwise return 0 */
-/* Note: the winner is the current player indicated in main() */
-int hasWinner(int gameBoard[3][3])
+void placeMarkByHumanPlayer(GameBoard *gameBoard, int mark)
+{
+    // Mark the game board
+    placeMark(gameBoard, getPositionByNumber(getInputFromPlayer()), mark);
+}
+
+int hasWinner(GameBoard *gameBoard)
 {
     // Check Horizontal
     for (int row = 0; row < 3; row++)
     {
-        if (gameBoard[row][0] != EMPTY &&
-            gameBoard[row][0] == gameBoard[row][1] && gameBoard[row][1] == gameBoard[row][2])
+        if (gameBoard->board[row][0] != EMPTY &&
+            gameBoard->board[row][0] == gameBoard->board[row][1] && gameBoard->board[row][1] == gameBoard->board[row][2])
             return 1;
     }
 
     // Check Vertical
     for (int col = 0; col < 3; col++)
     {
-        if (gameBoard[0][col] != EMPTY &&
-            gameBoard[0][col] == gameBoard[1][col] && gameBoard[1][col] == gameBoard[2][col])
+        if (gameBoard->board[0][col] != EMPTY &&
+            gameBoard->board[0][col] == gameBoard->board[1][col] && gameBoard->board[1][col] == gameBoard->board[2][col])
             return 1;
     }
 
     // Check Diagonal
-    if (gameBoard[1][1] != EMPTY &&
-        ((gameBoard[0][0] == gameBoard[1][1] && gameBoard[1][1] == gameBoard[2][2]) ||
-         (gameBoard[0][2] == gameBoard[1][1] && gameBoard[1][1] == gameBoard[2][0])))
+    if (gameBoard->board[1][1] != EMPTY &&
+        ((gameBoard->board[0][0] == gameBoard->board[1][1] && gameBoard->board[1][1] == gameBoard->board[2][2]) ||
+         (gameBoard->board[0][2] == gameBoard->board[1][1] && gameBoard->board[1][1] == gameBoard->board[2][0])))
         return 1;
 
-    // If nothing return after all the checkings
+    // If nothing return after all the checkings => no winner
     return 0;
 }
 
-// Check if the game board is full
-/* Return 1 if the game board is full, otherwise return 0 */
-int isFull(int gameBoard[3][3])
-{
-    for (int i = 0; i < 3; i++)
-    {
-        for (int j = 0; j < 3; j++)
-        {
-            // If there is Empty, the game board is not full
-            if (gameBoard[i][j] == EMPTY)
-                return 0;
-        }
-    }
-
-    // No empty => is full
-    return 1;
-}
-
+#pragma region AI
 // Place the mark in the first empty space by the computer player
-void placeMarkByComputerPlayer(int gameBoard[3][3])
+void placeMarkByComputerPlayer(GameBoard *gameBoard)
 {
     printf("Computer places the mark:\n");
 
-    // Loop through the board to find an empty place
-    for (int row = 0; row < 3; row++)
-    {
-        for (int col = 0; col < 3; col++)
-        {
-            if (gameBoard[row][col] == EMPTY)
-            {
-                gameBoard[row][col] = CROSS;
-                return;
-            }
-        }
-    }
+    // TODO: Logic
 }
 #pragma endregion
+#pragma endregion
 
+// TODO: Refactor main logic
 /* The main function */
 int main()
 {
