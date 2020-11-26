@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include "Input.h"
 
 #ifndef MENU
 #define MENU
@@ -29,8 +31,27 @@ void evaluateMainMenuInput(int input)
         break;
 
     case 0:
-
+        exit(0);
         break;
+
+    default:
+        // Invalid input. Recursively call until a valid input is detected
+        printf("/// Option Unavailable! ///\n");
+        evaluateMainMenuInput(getUserInput());
+    }
+}
+
+// Initialize and display the main menu
+void StartMainMenu()
+{
+    int ended = 0;
+    while (!ended)
+    {
+        // Display Main menu
+        printMainMenu();
+
+        // Get user input
+        evaluateMainMenuInput(getUserInput());
     }
 }
 
@@ -38,12 +59,45 @@ void evaluateMainMenuInput(int input)
 void printNewGameMenu()
 {
     printf("==============================\n");
-    printf("||        Game Mode         ||\n");
+    printf("||         New Game         ||\n");
     printf("==============================\n");
     printf("|| Choose and option:       ||\n");
     printf("||  [1] Single Player       ||\n");
     printf("||  [2] Multiplayer         ||\n");
     printf("||  [0] Back                ||\n");
     printf("------------------------------\n");
+}
+
+void evaluateNewGameMenuInput(int input)
+{
+    switch (input)
+    {
+    case 1:
+
+        break;
+
+    case 2:
+
+        break;
+
+    case 0:
+        // Return to the main menu
+        return;
+
+    default:
+        // Invalid input. Recursively call until received valid input
+        printf("/// Option Unavailable! ///\n");
+        evaluateNewGameMenuInput(getUserInput());
+    }
+}
+
+// Initialize the new game menu
+void StartNewGameMenu()
+{
+    // Display options
+    printNewGameMenu();
+
+    // Get user Input
+    evaluateNewGameMenuInput(getUserInput());
 }
 #endif // !MENU

@@ -29,21 +29,6 @@
 #include "Menu.h"
 #include "Input.h"
 
-void StartMainMenu()
-{
-    int ended = 0;
-    while (!ended)
-    {
-        // Display Main menu
-        printMainMenu();
-
-        // Get user input
-        getUserInput();
-        int input = getUserInput();
-        evaluateMainMenuInput(input);
-    }
-}
-
 // TODO: Refactor main logic
 /* The main function */
 int main()
