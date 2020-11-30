@@ -53,8 +53,8 @@ int getUserConfirm(void (*callback)())
 // Call this function to pause the console until the player press ENTER
 void waitForEnterKey()
 {
-    printf("Press Enter to continue . . . ");
-    char *tmp = 0;
+    printf("Press Enter to continue . . . \n");
+    char *tmp;
     fgets(tmp, 2, stdin);
 }
 #endif // !Input
