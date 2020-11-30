@@ -107,7 +107,7 @@ int getMark(GameBoard *gameBoard, Position pos)
 // Return true if the specific square is empty
 int isMarked(GameBoard *gameBoard, Position pos)
 {
-    return getMark(gameBoard, pos) == EMPTY;
+    return getMark(gameBoard, pos) != EMPTY;
 }
 
 // Get the number of the squre by the array index.
