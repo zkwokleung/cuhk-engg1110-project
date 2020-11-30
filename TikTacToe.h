@@ -1,34 +1,77 @@
 #include <stdio.h>
+#include "Input.h"
 
 #ifndef TikTacToe
 #define TikTacToe
+
 /* Macros used to represent the state of each square */
 #define EMPTY 0
 #define CIRCLE 1
 #define CROSS 2
 
+//-------------------------------
+// Structures
+//-------------------------------
+// Position struct, storing the x(col) and y(row) position for the game board.
 typedef struct s_position
 {
     int row, col;
 } Position;
 
+// Constructor of Position
 Position newPosition(int row, int col)
 {
     Position v = {row, col};
     return v;
 }
 
-#pragma region TikTacToe - GameBoard
+// Game board, storing the information of a game board.
+// Functions other then the
 typedef struct GameBoard
 {
     int board[3][3]; // The game board
     int marked;      // how many squares are marked.
 } GameBoard;
 
+// Enum for indentifing the player's type.
+typedef enum
+{
+    Human,
+    Computer
+} PlayerType;
+
+// Storing the information of a Player
+typedef struct s_player
+{
+    int id;
+    PlayerType type;
+    int move;
+    int mark;
+} Player;
+
+Player newPlayer(int id, PlayerType type)
+{
+    Player p = {id, type, 0};
+    p.mark = id + 1; // id = 0: CIRCLE, id = 1: CROSS
+    return p;
+}
+
+//-------------------------------
+// Function prototypes
+//-------------------------------
+void startNewSinglePlayerGame();
+void startNewMultiPlayerGame();
+void initGameBoard(GameBoard *);
+
+//-------------------------------
+// Game Board
+//-------------------------------
 // Create and return a new Game Board
 GameBoard newGameBoard()
 {
     GameBoard gb = {{EMPTY}, 0};
+
+    initGameBoard(&gb);
 
     return gb;
 }
@@ -156,26 +199,139 @@ void placeMark(GameBoard *gameBoard, Position pos, int mark)
 #pragma endregion
 
 // Get and verify the input until a valid input is received
-int getInputFromPlayer()
+// Ignoring the player id
+int getInputFromHuman()
 {
-    // TODO:
-    return 0;
+    int ipt;
+
+    // Print message
+    printf("Place your mark on an empty space!\n");
+    return getUserInput();
 }
 
-void placeMarkByHumanPlayer(GameBoard *gameBoard, int mark)
+int getInputFromComputer(GameBoard *board)
 {
-    // Mark the game board
-    placeMark(gameBoard, getPositionByNumber(getInputFromPlayer()), mark);
+    // Loop through the board to find a empty space
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            if (board->board[i][j] == EMPTY)
+                return 3 * i + j + 1;
+        }
+    }
 }
 
-#pragma region AI
-// Place the mark in the first empty space by the computer player
-void placeMarkByComputerPlayer(GameBoard *gameBoard)
+//-------------------------------
+// Game Logic
+//-------------------------------
+// Get the input from the player and return it as a position in game board
+Position getInputFromPlayer(GameBoard *gameBoard, Player *player)
 {
-    printf("Computer places the mark:\n");
+    int ipt = 0;
+    if (player->type == Human)
+    {
+        // Human player
+        ipt = getInputFromHuman();
+    }
+    else
+    {
+        // Computer player
+        ipt = getInputFromComputer(gameBoard);
+    }
 
-    // TODO: Logic
+    // Convert the input to Position
+    Position p = getPositionByNumber(ipt);
+
+    // Verify the Input
+    if (isMarked(gameBoard, p))
+    {
+        // The square is marked. Ask for another input.
+        printf("/// The square has been marked! Choose another square! ///");
+        return getInputFromPlayer(gameBoard, player);
+    }
+
+    return p;
 }
-#pragma endregion
 
-#endif // !GeneticUtility
+// Call when before the player start its turn
+void onStartTurn(Player *player)
+{
+    // Promp start turn message
+    if (player->type == Human)
+    {
+        // Human
+        printf("Player %d's turn\n", player->id + 1);
+    }
+    else
+    {
+        // Computer
+        printf("Computer's turn\n");
+    }
+}
+
+// Display the end game report
+void displayEndGameReport(GameBoard *board, Player *winner)
+{
+    printf("||||||||||||||||||||||||||||||\n");
+    printf("||         Game Over        ||\n");
+    printf("||||||||||||||||||||||||||||||\n");
+    printf("||\n");
+    if (winner != NULL)
+    {
+        // Display winner's info
+        printf("|| Winner: Player %d\n", winner->id + 1);
+        printf("||\n");
+        printf("|| Placed marks: %d\n", winner->move);
+    }
+    else
+    {
+        // Draw game
+        printf("||            Draw          ||\n");
+    }
+    printf("||\n");
+    printf("||||||||||||||||||||||||||||||\n");
+}
+
+// Invoke to start the game loop.
+// p2: the player type of player 2. Either Human or Computer.
+void startTikTacToe(PlayerType p2Type)
+{
+    // Initialize game data
+    GameBoard _gb = newGameBoard();
+    GameBoard *gameBoard = &_gb;
+
+    // Intialize players
+    Player _p[2]; // Array to store the players
+    _p[0] = newPlayer(0, Human);
+    _p[1] = newPlayer(1, p2Type);
+
+    Player *player[2] = {&_p[0], &_p[1]}; // Pointer array of the players
+
+    int currentTurn = 1; // current turn. 0 => player 1, 1 => player 2
+
+    while (!hasWinner(gameBoard) && !isFull(gameBoard))
+    {
+        // Switch turn
+        currentTurn = (currentTurn == 1) ? 0 : 1;
+
+        // Start turn
+        onStartTurn(player[currentTurn]);
+
+        // Ask for Input
+        Position p = getInputFromPlayer(gameBoard, player[currentTurn]);
+
+        // Place mark
+        placeMark(gameBoard, p, player[currentTurn]->mark);
+    }
+
+    // Show end game report. Pass in NULL if no winner
+    displayEndGameReport(gameBoard, hasWinner(gameBoard) ? player[currentTurn] : NULL);
+
+    // Pause the program until the player pressed Enter key
+    waitForEnterKey();
+
+    // Game Loop ended. Return back to where the function is called
+}
+
+#endif
