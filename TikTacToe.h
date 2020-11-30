@@ -310,6 +310,8 @@ void startTikTacToe(PlayerType p2Type)
 
     int currentTurn = 1; // current turn. 0 => player 1, 1 => player 2
 
+    printGameBoard(gameBoard);
+
     while (!hasWinner(gameBoard) && !isFull(gameBoard))
     {
         // Switch turn
@@ -323,7 +325,11 @@ void startTikTacToe(PlayerType p2Type)
 
         // Place mark
         placeMark(gameBoard, p, player[currentTurn]->mark);
+
+        printGameBoard(gameBoard);
     }
+
+    printGameBoard(gameBoard);
 
     // Show end game report. Pass in NULL if no winner
     displayEndGameReport(gameBoard, hasWinner(gameBoard) ? player[currentTurn] : NULL);
