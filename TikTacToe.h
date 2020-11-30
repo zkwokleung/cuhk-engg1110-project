@@ -36,8 +36,8 @@ typedef struct GameBoard
 // Enum for indentifing the player's type.
 typedef enum
 {
-    Human,
-    Computer
+    Human = 0,
+    Computer = 1
 } PlayerType;
 
 // Storing the information of a Player
@@ -293,8 +293,8 @@ void displayEndGameReport(GameBoard *board, Player *winner)
     printf("||||||||||||||||||||||||||||||\n");
 }
 
-// Invoke to start the game loop.
-// p2: the player type of player 2. Either Human or Computer.
+// Invoke to start the Tik Tac Toe game loop.
+// p2: the player type of player 2. Human => 0; Computer => 1
 void startTikTacToe(PlayerType p2Type)
 {
     // Initialize game data

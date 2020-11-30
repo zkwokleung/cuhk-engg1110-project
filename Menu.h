@@ -6,8 +6,8 @@
 #ifndef MENU
 #define MENU
 #pragma region prototypes
-void StartMainMenu();
-void StartNewGameMenu();
+void startMainMenu();
+void startNewGameMenu();
 #pragma endregion
 
 // Main Menu
@@ -29,7 +29,7 @@ void evaluateMainMenuInput(int input)
     switch (input)
     {
     case 1:
-        StartNewGameMenu();
+        startNewGameMenu();
         break;
 
     case 2:
@@ -48,7 +48,7 @@ void evaluateMainMenuInput(int input)
 }
 
 // Initialize and display the main menu
-void StartMainMenu()
+void startMainMenu()
 {
     int ended = 0;
     while (!ended)
@@ -79,11 +79,11 @@ void evaluateNewGameMenuInput(int input)
     switch (input)
     {
     case 1:
-
+        startTikTacToe(Computer);
         break;
 
     case 2:
-
+        startTikTacToe(Human);
         break;
 
     case 0:
@@ -98,12 +98,15 @@ void evaluateNewGameMenuInput(int input)
 }
 
 // Initialize the new game menu
-void StartNewGameMenu()
+void startNewGameMenu()
 {
     // Display options
     printNewGameMenu();
 
     // Get user Input
     evaluateNewGameMenuInput(getUserInput());
+
+    // Always return to the main menu after the inner loop completed
+    startMainMenu();
 }
 #endif // !MENU
