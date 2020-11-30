@@ -26,8 +26,8 @@ int getUserInput()
 }
 
 // Get confirmation from the user
-// Y: return 1; N: return 0; other: Ask again
-int getUserConfirm()
+// Y: invoke the callback and return 1; N: return 0; other: Ask again
+int getUserConfirm(void (*callback)())
 {
     char ipt;
 
@@ -46,8 +46,15 @@ int getUserConfirm()
 
     default:
         printf("/// Invalid input! ///\n");
-        return getUserConfirm();
+        return getUserConfirm(callback);
     }
 }
 
+// Call this function to pause the console until the player press ENTER
+void waitForEnterKey()
+{
+    printf("Press Enter to continue . . . ");
+    char *tmp = 0;
+    fgets(tmp, 2, stdin);
+}
 #endif // !Input
