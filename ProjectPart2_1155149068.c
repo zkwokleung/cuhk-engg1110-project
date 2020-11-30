@@ -33,6 +33,6 @@
 /* The main function */
 int main()
 {
-    StartMainMenu();
+    startMainMenu();
     return 0;
 }
