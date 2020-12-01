@@ -54,7 +54,11 @@ int getUserConfirm(void (*callback)())
 void waitForEnterKey()
 {
     printf("Press Enter to continue . . . \n");
-    char tmp[2];
-    fgets(tmp, 2, stdin);
+    char tmp = 0;
+    while (tmp != '\r' && tmp != '\n')
+    {
+        // Throw away all the character except the enter key
+        tmp = getchar();
+    }
 }
 #endif // !Input
