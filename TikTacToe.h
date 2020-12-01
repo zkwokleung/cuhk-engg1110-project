@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "Input.h"
+#include "Genetic.h"
 
 #ifndef TikTacToe
 #define TikTacToe
@@ -326,12 +327,11 @@ void displayEndGameReport(GameBoard *board, Player *winner)
         // Display winner's info
         printf("|| Winner: Player %d\n", winner->id + 1);
         printf("||\n");
-        printf("|| Placed marks: %d\n", winner->move);
     }
     else
     {
         // Draw game
-        printf("||            Draw          ||\n");
+        printf("||           Draw\n");
     }
     printf("||\n");
     printf("||||||||||||||||||||||||||||||\n");
@@ -369,17 +369,13 @@ void startTikTacToe(PlayerType p2Type)
         // Place mark
         placeMark(gameBoard, p, player[currentTurn]->mark);
 
-        // Some what clear the console
-        for (int i = 0; i < 50; i++)
-        {
-            printf("\n");
-        }
+        cls();
     }
-
-    printGameBoard(gameBoard);
 
     // Show end game report. Pass in NULL if no winner
     displayEndGameReport(gameBoard, hasWinner(gameBoard) ? player[currentTurn] : NULL);
+
+    printGameBoard(gameBoard);
 
     // Pause the program until the player pressed Enter key
     waitForEnterKey();
