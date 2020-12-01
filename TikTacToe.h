@@ -25,6 +25,11 @@ Position newPosition(int row, int col)
     return v;
 }
 
+void printPosition(Position p)
+{
+    printf("row: %d, col: %d\n", p.row, p.col);
+}
+
 // Game board, storing the information of a game board.
 // Functions other then the
 typedef struct GameBoard
@@ -101,7 +106,7 @@ int isFull(GameBoard *gameBoard)
 // Get the mark from the board
 int getMark(GameBoard *gameBoard, Position pos)
 {
-    return gameBoard->board[pos.col][pos.row];
+    return gameBoard->board[pos.row][pos.col];
 }
 
 // Return true if the specific square is empty
@@ -160,7 +165,7 @@ int hasWinner(GameBoard *gameBoard)
 // Print the game board
 void printGameBoard(GameBoard *gameBoard)
 {
-    printf("=========\n");
+    printf("============\n");
     // Start from the last row
     for (int row = 2; row >= 0; row--)
     {
@@ -169,21 +174,50 @@ void printGameBoard(GameBoard *gameBoard)
         {
             if (gameBoard->board[row][col] == EMPTY) // Empty. Print out the number
             {
-                printf("|%d|", getNumberByPosition(newPosition(row, col)));
+                printf("|%d| ", getNumberByPosition(newPosition(row, col)));
             }
             else if (gameBoard->board[row][col] == CIRCLE) // Circle. Print 'O'
             {
-                printf("|O|");
+                printf("|O| ");
             }
             else if (gameBoard->board[row][col] == CROSS) // Cross. Print 'X'
             {
-                printf("|X|");
+                printf("|X| ");
             }
         }
         // Next line
         printf("\n");
     }
-    printf("=========\n");
+    printf("============\n");
+}
+
+void debugPrintGameBoard(GameBoard *gb)
+{
+    printf("====================================\n");
+    // Start from the last row
+    for (int row = 2; row >= 0; row--)
+    {
+        // Start from the frist col
+        for (int col = 0; col < 3; col++)
+        {
+            printf("||%p||", &(gb->board[row][col]));
+        }
+        // Next line
+        printf("\n");
+    }
+    printf("======================================\n");
+    // Start from the last row
+    for (int row = 2; row >= 0; row--)
+    {
+        // Start from the frist col
+        for (int col = 0; col < 3; col++)
+        {
+            printf("||%d||", (gb->board[row][col]));
+        }
+        // Next line
+        printf("\n");
+    }
+    printf("======================================\n");
 }
 #pragma endregion
 
@@ -220,6 +254,9 @@ int getInputFromComputer(GameBoard *board)
                 return 3 * i + j + 1;
         }
     }
+
+    printf("!!!!! Fatal ERROR, game board is fulled but still asking for computer input !!!!!\n");
+    return -1; // The game board is fulled, and this function should not even be called
 }
 
 //-------------------------------
@@ -247,7 +284,14 @@ Position getInputFromPlayer(GameBoard *gameBoard, Player *player)
     if (isMarked(gameBoard, p))
     {
         // The square is marked. Ask for another input.
-        printf("/// The square has been marked! Choose another square! ///");
+        printf("/// The square [%d] has been marked! Choose another square! ///\n", ipt);
+        // DEBUG
+        // printf("|||||||||||||||||||||||||||||||||||||\n");
+        // printGameBoard(gameBoard);
+        // printPosition(p);
+        // printf("Mark on p: %d\n", getMark(gameBoard, p));
+        // debugPrintGameBoard(gameBoard);
+        // printf("|||||||||||||||||||||||||||||||||||||\n");
         return getInputFromPlayer(gameBoard, player);
     }
 
@@ -310,10 +354,9 @@ void startTikTacToe(PlayerType p2Type)
 
     int currentTurn = 1; // current turn. 0 => player 1, 1 => player 2
 
-    printGameBoard(gameBoard);
-
     while (!hasWinner(gameBoard) && !isFull(gameBoard))
     {
+        printGameBoard(gameBoard);
         // Switch turn
         currentTurn = (currentTurn == 1) ? 0 : 1;
 
@@ -326,7 +369,11 @@ void startTikTacToe(PlayerType p2Type)
         // Place mark
         placeMark(gameBoard, p, player[currentTurn]->mark);
 
-        printGameBoard(gameBoard);
+        // Some what clear the console
+        for (int i = 0; i < 50; i++)
+        {
+            printf("\n");
+        }
     }
 
     printGameBoard(gameBoard);
