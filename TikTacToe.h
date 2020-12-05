@@ -4,6 +4,7 @@
 
 #ifndef TikTacToe
 #define TikTacToe
+#pragma region TikTacToe
 
 /* Macros used to represent the state of each square */
 #define EMPTY 0
@@ -382,5 +383,5 @@ void startTikTacToe(PlayerType p2Type)
 
     // Game Loop ended. Return back to where the function is called
 }
-
+#pragma endregion
 #endif

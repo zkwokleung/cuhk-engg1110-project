@@ -5,10 +5,9 @@
 
 #ifndef MENU
 #define MENU
-#pragma region prototypes
+#pragma region Menu
 void startMainMenu();
 void startNewGameMenu();
-#pragma endregion
 
 // Main Menu
 void printMainMenu()
@@ -109,4 +108,5 @@ void startNewGameMenu()
     // Always return to the main menu after the inner loop completed
     startMainMenu();
 }
+#pragma endregion
 #endif // !MENU

@@ -2,6 +2,7 @@
 
 #ifndef Input
 #define Input
+#pragma region Input
 // Standard get input function for this project.
 // Read only 1 character each time.
 char getChar()
@@ -92,4 +93,5 @@ void waitForEnterKey()
     }
     // Use looping to discard all the character input
 }
+#pragma endregion
 #endif // !Input

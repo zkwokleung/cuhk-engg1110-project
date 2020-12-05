@@ -2,7 +2,7 @@
 
 #ifndef Genetic
 #define Genetic
-
+#pragma region Genetic
 // Clear the console
 void cls()
 {
@@ -12,5 +12,5 @@ void cls()
         printf("\n");
     }
 }
-
+#pragma endregion
 #endif // !Genetic
