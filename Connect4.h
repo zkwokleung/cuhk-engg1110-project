@@ -9,16 +9,16 @@ typedef struct s_gameboardc4
 {
     int board[6][7];
     int marked;
-} GameBaordC4;
+} GameBoardC4;
 
-GameBaordC4 newGameBaordC4()
+GameBoardC4 newGameBaordC4()
 {
-    GameBaordC4 gb = {{EMPTY}, 0};
+    GameBoardC4 gb = {{EMPTY}, 0};
 
     return gb;
 }
 
-void initGameBaordC4(GameBaordC4 *gb)
+void initGameBaordC4(GameBoardC4 *gb)
 {
     // Init the board
     for (int row = 0; row < 6; row++)
