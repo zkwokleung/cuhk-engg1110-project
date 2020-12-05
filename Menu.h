@@ -43,7 +43,7 @@ void evaluateMainMenuInput(int input)
     default:
         // Invalid input. Recursively call until a valid input is detected
         printf("/// Option Unavailable! ///\n");
-        evaluateMainMenuInput(getUserInput());
+        evaluateMainMenuInput(getNumberInput());
     }
 }
 
@@ -57,7 +57,7 @@ void startMainMenu()
         printMainMenu();
 
         // Get user input
-        evaluateMainMenuInput(getUserInput());
+        evaluateMainMenuInput(getNumberInput());
     }
 }
 
@@ -93,7 +93,7 @@ void evaluateNewGameMenuInput(int input)
     default:
         // Invalid input. Recursively call until received valid input
         printf("/// Option Unavailable! ///\n");
-        evaluateNewGameMenuInput(getUserInput());
+        evaluateNewGameMenuInput(getNumberInput());
     }
 }
 
@@ -104,7 +104,7 @@ void startNewGameMenu()
     printNewGameMenu();
 
     // Get user Input
-    evaluateNewGameMenuInput(getUserInput());
+    evaluateNewGameMenuInput(getNumberInput());
 
     // Always return to the main menu after the inner loop completed
     startMainMenu();

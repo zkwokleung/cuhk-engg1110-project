@@ -241,7 +241,7 @@ int getInputFromHuman()
 
     // Print message
     printf("Place your mark on an empty space!\n");
-    return getUserInput();
+    return getNumberInput();
 }
 
 int getInputFromComputer(GameBoard *board)
