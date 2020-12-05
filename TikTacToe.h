@@ -33,7 +33,7 @@ void printPosition(Position p)
 
 // Game board, storing the information of a game board.
 // Functions other then the
-typedef struct GameBoard
+typedef struct s_tttgameboard
 {
     int board[3][3]; // The game board
     int marked;      // how many squares are marked.
