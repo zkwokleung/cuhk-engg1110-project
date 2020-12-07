@@ -238,8 +238,6 @@ void placeMark(GameBoard *gameBoard, Position pos, int mark)
 // Ignoring the player id
 int getInputFromHuman()
 {
-    int ipt;
-
     // Print message
     printf("Place your mark on an empty space!\n");
     return getNumberInput();
