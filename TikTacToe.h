@@ -66,8 +66,6 @@ Player newPlayer(int id, PlayerType type)
 //-------------------------------
 // Function prototypes
 //-------------------------------
-void startNewSinglePlayerGame();
-void startNewMultiPlayerGame();
 void initGameBoard(GameBoard *);
 
 //-------------------------------
