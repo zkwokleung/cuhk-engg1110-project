@@ -7,6 +7,8 @@
 #define Connect4
 
 #pragma region Connect4
+// GameMode: Connect 4
+// Since there is no class in C, we added the postfix "C4" to all the related functions.
 typedef struct s_gameboardc4
 {
     int board[6][7]; // The Game Board. Each column is a pseudo-stack
@@ -105,6 +107,12 @@ int pushMark(GameBoardC4 *gb, int col, int mark)
     // Push the mark onto the board and increase the number of marks
     gb->board[gb->counts[col]++][col] = mark;
     return 1;
+}
+
+int getInputFromHumanC4()
+{
+    printf("Place a coin on a column!");
+    return getNumberInput();
 }
 #pragma endregion
 #endif // !Connect4
