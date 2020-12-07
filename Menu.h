@@ -49,6 +49,7 @@ void evaluateMainMenuInput(int input)
 // Initialize and display the main menu
 void startMainMenu()
 {
+    cls();
     int ended = 0;
     while (!ended)
     {
@@ -99,6 +100,7 @@ void evaluateNewGameMenuInput(int input)
 // Initialize the new game menu
 void startNewGameMenu()
 {
+    cls();
     // Display options
     printNewGameMenu();
 

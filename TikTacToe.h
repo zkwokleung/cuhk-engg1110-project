@@ -338,6 +338,7 @@ void displayEndGameReport(GameBoard *board, Player *winner)
 // p2: the player type of player 2. Human => 0; Computer => 1
 void startTikTacToe(PlayerType p2Type)
 {
+    cls();
     // Initialize game data
     GameBoard _gb = newGameBoard();
     GameBoard *gameBoard = &_gb;
