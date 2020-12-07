@@ -9,11 +9,20 @@
 #pragma region Connect4
 // GameMode: Connect 4
 // Since there is no class in C, we added the postfix "C4" to all the related functions.
+// In this gamemode, a mark is considered to be a coin.
+// ***************************************************
+// ************** Gameplay Description ***************
+// ***************************************************
+/*
+    A player choose a column to put the coin, 
+    and the coin will fall to the bottom of the column.
+    The first player who connected 4 coins, either vertically, horizontally or diagonally, will win the game.
+*/
 typedef struct s_gameboardc4
 {
     int board[6][7]; // The Game Board. Each column is a pseudo-stack
-                     // The indeces represent [row][col]
-    int counts[7];   // Counting how many marks is in each column.
+                     // Index: [row][col]
+    int counts[7];   // Counting how many coins is in each column.
 } GameBoardC4;
 
 GameBoardC4 newGameBaordC4()
@@ -44,7 +53,7 @@ void initGameBaordC4(GameBoardC4 *gb)
 void printGameBoardC4(GameBoardC4 *gb)
 {
     // Print game board
-    for (int row = 0; row < 6; row++)
+    for (int row = 5; row >= 0; row--)
     {
         printf("||");
         for (int col = 0; col < 7; col++)
@@ -98,7 +107,7 @@ int isFullC4(GameBoardC4 *gb)
 
 // Insert a mark into a column of the board
 // Return 1 if successfully inserted, return 0 otherwise
-int pushMark(GameBoardC4 *gb, int col, int mark)
+int insertCoin(GameBoardC4 *gb, int col, int mark)
 {
     // Input validation
     if (col < 0 || col > 6 || isColumnFull(gb, col))
@@ -113,6 +122,49 @@ int getInputFromHumanC4()
 {
     printf("Place a coin on a column!");
     return getNumberInput();
+}
+
+// When a coin is inserted, evaluate if it is a winning move
+// Accept the game board and the column where the coin was inserted
+// Return 1 if it is a winning move, 0 otherwise
+int evaluateMove(GameBoardC4 *gb, int col)
+{
+    // Evaluate coins within 4 radius, find if there is 4 same type of coin connected
+    int count = 0;
+    int *center = &gb->board[gb->counts[col] - 1][col];
+    int *pivot;
+
+    // Check Horizontal
+    for (int i = 0; i < 7; i++)
+    {
+        if (gb->board[gb->counts[col] - 1][i] == *center)
+        {
+            if (++count >= 4)
+                return 1;
+        }
+        else
+        {
+            count = 0;
+        }
+    }
+
+    // Check Vertical
+    for (int i = 0; i < 6; i++)
+    {
+        if (gb->board[i][col] == *center)
+        {
+            if (++count >= 4)
+                return 1;
+        }
+        else
+        {
+            count = 0;
+        }
+    }
+
+    // Check Diagonal
+
+    return 0;
 }
 #pragma endregion
 #endif // !Connect4
