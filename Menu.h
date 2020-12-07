@@ -9,6 +9,8 @@
 void startMainMenu();
 void startNewGameMenu();
 
+// TODO: Choose AND option -> choose a game
+// TODO: New game -> TikTacToe; Load game -> Connect 4
 // Main Menu
 void printMainMenu()
 {
