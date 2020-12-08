@@ -222,14 +222,6 @@ int getInputFromHuman_TTT()
 // Return a random empty square
 int getInputFromComputer_TTT(GameBoard_TTT *gb)
 {
-    if (isFull_TTT(gb))
-    {
-        // The game board is fulled, and this function should not even be called
-        printf("!!!!! Fatal ERROR, game board is fulled but still asking for computer input !!!!!\n");
-        return -1;
-        // The above lines is actually never executed because the loop is perfect.
-    }
-
     int ipt = 0;
 
     do
