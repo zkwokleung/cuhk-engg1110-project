@@ -313,24 +313,25 @@ void onStartTurn(Player *player)
 }
 
 // Display the end game report
-void displayEndGameReport(GameBoard *board, Player *winner)
+void displayEndGameReport(Player *winner)
 {
     printf("||||||||||||||||||||||||||||||\n");
     printf("||         Game Over        ||\n");
     printf("||||||||||||||||||||||||||||||\n");
-    printf("||\n");
     if (winner != NULL)
     {
         // Display winner's info
+        printf("||\n");
         printf("|| Winner: Player %d\n", winner->id + 1);
         printf("||\n");
     }
     else
     {
         // Draw game
-        printf("||           Draw\n");
+        printf("||                          ||\n");
+        printf("||           Draw           ||\n");
+        printf("||                          ||\n");
     }
-    printf("||\n");
     printf("||||||||||||||||||||||||||||||\n");
 }
 
@@ -371,7 +372,7 @@ void startTikTacToe(PlayerType p2Type)
     }
 
     // Show end game report. Pass in NULL if no winner
-    displayEndGameReport(gameBoard, hasWinner(gameBoard) ? player[currentTurn] : NULL);
+    displayEndGameReport(hasWinner(gameBoard) ? player[currentTurn] : NULL);
 
     printGameBoard(gameBoard);
 
