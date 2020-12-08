@@ -20,24 +20,22 @@
     and the token will fall to the bottom of the column.
     The first player who connected 4 tokens, either vertically, horizontally or diagonally, will win the game.
 */
-// Function prototypes
-void startConnect4(PlayerType p2Type);
 
 typedef struct s_gameboardc4
 {
     int board[6][7]; // The Game Board. Each column is a pseudo-stack
                      // Index: [row][col]
     int counts[7];   // Counting how many tokens is in each column.
-} GameBoardC4;
+} GameBoard_C4;
 
-GameBoardC4 newGameBaordC4()
+GameBoard_C4 new_GameBaord_C4()
 {
-    GameBoardC4 gb = {{EMPTY}, {0}};
+    GameBoard_C4 gb = {{EMPTY}, {0}};
 
     return gb;
 }
 
-void initGameBaordC4(GameBoardC4 *gb)
+void initGameBaord_C4(GameBoard_C4 *gb)
 {
     // Init the board
     for (int row = 0; row < 6; row++)
@@ -55,7 +53,7 @@ void initGameBaordC4(GameBoardC4 *gb)
     }
 }
 
-void printGameBoardC4(GameBoardC4 *gb)
+void printGameBoard_C4(GameBoard_C4 *gb)
 {
     // Print game board
     for (int row = 5; row >= 0; row--)
@@ -91,14 +89,14 @@ void printGameBoardC4(GameBoardC4 *gb)
 }
 
 // Check if the column is fulled
-int isColumnFull(GameBoardC4 *gb, int column)
+int isColumnFull_C4(GameBoard_C4 *gb, int column)
 {
     return gb->counts[column] == 6;
 }
 
 // Check if the board is full.
 // Return 1 if the board is full, 0 if not
-int isFullC4(GameBoardC4 *gb)
+int isFull_C4(GameBoard_C4 *gb)
 {
     // Check every column
     for (int i = 0; i < 7; i++)
@@ -112,10 +110,10 @@ int isFullC4(GameBoardC4 *gb)
 
 // Insert a mark into a column of the board
 // Return 1 if successfully inserted, return 0 otherwise
-int insertToken(GameBoardC4 *gb, int col, int mark)
+int insertToken_C4(GameBoard_C4 *gb, int col, int mark)
 {
     // Input validation
-    if (col < 0 || col > 6 || isColumnFull(gb, col))
+    if (col < 0 || col > 6 || isColumnFull_C4(gb, col))
         return 0;
 
     // Push the mark onto the board and increase the number of marks
@@ -123,35 +121,35 @@ int insertToken(GameBoardC4 *gb, int col, int mark)
     return 1;
 }
 
-int getInputFromHumanC4()
+int getInputFromHuman_C4()
 {
     printf("Place a token on a column!\n");
 
     return getNumberInput();
 }
 
-int getInputFromComputerC4(GameBoardC4 *gb)
+int getInputFromComputer_C4(GameBoard_C4 *gb)
 {
     int ran;
     do
     {
         // Keep looping if the column is full.
         ran = getRandomInt(7);
-    } while (isColumnFull(gb, ran));
+    } while (isColumnFull_C4(gb, ran));
 
     return ran;
 }
 
-int getInputFromPlayerC4(GameBoardC4 *gb, Player *player)
+int getInputFromPlayer_C4(GameBoard_C4 *gb, Player *player)
 {
     int ipt = 0;
     if (player->type == Human)
     {
-        ipt = getInputFromHumanC4();
+        ipt = getInputFromHuman_C4();
     }
     else
     {
-        ipt = getInputFromComputerC4(gb);
+        ipt = getInputFromComputer_C4(gb);
     }
 
     // Input validation
@@ -159,23 +157,25 @@ int getInputFromPlayerC4(GameBoardC4 *gb, Player *player)
     {
         printf("/// Invalid Input! Please enter the column number between 0 and 6! ///\n");
         ;
-        return getInputFromPlayerC4(gb, player);
+        return getInputFromPlayer_C4(gb, player);
     }
 
-    if (isColumnFull(gb, ipt))
+    if (isColumnFull_C4(gb, ipt))
     {
         printf("/// The column is full! Please choose another column! ///\n");
-        return getInputFromPlayerC4(gb, player);
+        return getInputFromPlayer_C4(gb, player);
     }
 
     // Input validation passed
     return ipt;
 }
 
+/*  Since it is a bit resource-consuming to loop through the entire board everytime, 
+    we will only evaluate the spaces around the latest token  */
 // When a token is inserted, evaluate if it is a winning move
 // Accept the game board and the column where the token was inserted
 // Return 1 if it is a winning move, 0 otherwise
-int evaluateMove(GameBoardC4 *gb, int col)
+int evaluateMove_C4(GameBoard_C4 *gb, int col)
 {
     // Evaluate tokens within 4 radius, find if there is 4 same type of token connected
     int count = 0;
@@ -214,12 +214,12 @@ int evaluateMove(GameBoardC4 *gb, int col)
     count = 0;
 
     // Check Diagonal
-    int height = gb->counts[col] - 1;
+    int height = gb->counts[col] - 1; // Height of the column
 
-    int startCol = col - height;
+    int startCol = col - height; // Which column to start evaluate
     startCol = (startCol < 0) ? 0 : startCol;
 
-    int startRow = height - col;
+    int startRow = height - col; //Which Row to start evaluate
     startRow = (startRow < 0) ? 0 : startRow;
 
     // slash
@@ -261,18 +261,6 @@ int evaluateMove(GameBoardC4 *gb, int col)
     return 0;
 }
 
-void onStartTurnC4(Player *player)
-{
-    if (player->type == Human)
-    {
-        printf("Player %d's turn . . . \n", player->id + 1);
-    }
-    else
-    {
-        printf("Computer's turn . . . \n");
-    }
-}
-
 // Invoke to start the game loop.
 // p2Type: The type of player2. Either Human(0) or Computer(1).
 void startConnect4(PlayerType p2Type)
@@ -280,8 +268,8 @@ void startConnect4(PlayerType p2Type)
     cls();
 
     // Initialize game board
-    GameBoardC4 _gb = newGameBaordC4();
-    GameBoardC4 *gameBoard = &_gb;
+    GameBoard_C4 _gb = new_GameBaord_C4();
+    GameBoard_C4 *gameBoard = &_gb;
 
     // Initialize players
     Player _p[2] = {newPlayer(0, Human),
@@ -295,21 +283,21 @@ void startConnect4(PlayerType p2Type)
 
     while (!gameEnded)
     {
-        printGameBoardC4(gameBoard);
+        printGameBoard_C4(gameBoard);
 
         // Switch turn
         currentTurn = (currentTurn == 1) ? 0 : 1;
 
         // Start turn. Prompt message
-        onStartTurnC4(player[currentTurn]);
+        onStartTurn(player[currentTurn]);
 
         // Input handling. Input validation is done by the function logic
-        ipt = getInputFromPlayerC4(gameBoard, player[currentTurn]);
-        insertToken(gameBoard, ipt, player[currentTurn]->mark);
+        ipt = getInputFromPlayer_C4(gameBoard, player[currentTurn]);
+        insertToken_C4(gameBoard, ipt, player[currentTurn]->mark);
 
         // Check if the game should end
-        hasWinner = evaluateMove(gameBoard, ipt);
-        gameEnded = hasWinner || isFullC4(gameBoard);
+        hasWinner = evaluateMove_C4(gameBoard, ipt);
+        gameEnded = hasWinner || isFull_C4(gameBoard);
 
         printf("\n\n");
     }
@@ -324,7 +312,7 @@ void startConnect4(PlayerType p2Type)
         displayEndGameReport(NULL);
     }
 
-    printGameBoardC4(gameBoard);
+    printGameBoard_C4(gameBoard);
 
     // Pause the program until the player pressed Enter key
     waitForEnterKey();
