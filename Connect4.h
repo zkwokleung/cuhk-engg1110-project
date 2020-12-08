@@ -69,11 +69,11 @@ void printGameBoardC4(GameBoardC4 *gb)
             }
             else if (gb->board[row][col] == CIRCLE) // Circle. Print 'O'
             {
-                printf(" O ");
+                printf("{O}");
             }
             else if (gb->board[row][col] == CROSS) // Cross. Print 'X'
             {
-                printf(" X ");
+                printf("{X}");
             }
         }
         printf("||\n");
@@ -125,7 +125,7 @@ int insertToken(GameBoardC4 *gb, int col, int mark)
 
 int getInputFromHumanC4()
 {
-    printf("Place a token on a column!");
+    printf("Place a token on a column!\n");
 
     return getNumberInput();
 }
@@ -265,11 +265,11 @@ void onStartTurnC4(Player *player)
 {
     if (player->type == Human)
     {
-        printf("Player %d's turn\n", player->id + 1);
+        printf("Player %d's turn . . . \n", player->id + 1);
     }
     else
     {
-        printf("Computer's turn\n");
+        printf("Computer's turn . . . \n");
     }
 }
 

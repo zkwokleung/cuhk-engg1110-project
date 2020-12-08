@@ -11,6 +11,8 @@ char getChar()
     char ipt;      // Storage for the last entered
     int count = 0; // Counting how many character has been typed.
 
+    printf("> ");
+
     // Keep reading the input until there is a enter key
     while (1)
     {
