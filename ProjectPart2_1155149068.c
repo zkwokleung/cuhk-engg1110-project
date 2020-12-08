@@ -23,6 +23,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <string.h>
 
 // TODO: Merge the .h files and Remove these lines
@@ -33,6 +34,9 @@
 /* The main function */
 int main()
 {
+    // Initialize random number generator
+    srand(time(NULL));
+
     startMainMenu();
     return 0;
 }

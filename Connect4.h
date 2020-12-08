@@ -130,9 +130,14 @@ int getInputFromHumanC4()
 
 int getInputFromComputerC4(GameBoardC4 *gb)
 {
-    // TODO: implement
+    int ran;
+    do
+    {
+        // Keep looping if the column is full.
+        ran = getRandomInt(7);
+    } while (isColumnFull(gb, ran));
 
-    return 0;
+    return ran;
 }
 
 int getInputFromPlayerC4(GameBoardC4 *gb, Player *player)
