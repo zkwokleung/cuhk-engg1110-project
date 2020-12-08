@@ -345,9 +345,8 @@ void startTikTacToe(PlayerType p2Type)
     GameBoard *gameBoard = &_gb;
 
     // Intialize players
-    Player _p[2]; // Array to store the players
-    _p[0] = newPlayer(0, Human);
-    _p[1] = newPlayer(1, p2Type);
+    Player _p[2] = {newPlayer(0, Human),
+                    newPlayer(1, p2Type)}; // Array to store the players
 
     Player *player[2] = {&_p[0], &_p[1]}; // Pointer array of the players
 
