@@ -124,7 +124,44 @@ int insertToken(GameBoardC4 *gb, int col, int mark)
 int getInputFromHumanC4()
 {
     printf("Place a token on a column!");
+
     return getNumberInput();
+}
+
+int getInputFromComputerC4(GameBoardC4 *gb)
+{
+    // TODO: implement
+    return 0;
+}
+
+int getInputFromPlayerC4(GameBoardC4 *gb, Player *player)
+{
+    int ipt = 0;
+    if (player->type == Human)
+    {
+        ipt = getInputFromHumanC4();
+    }
+    else
+    {
+        ipt = getInputFromComputerC4(gb);
+    }
+
+    // Input validation
+    if (ipt > 6)
+    {
+        printf("/// Invalid Input! Please enter the column number between 0 and 6! ///\n");
+        ;
+        return getInputFromPlayerC4(gb, player);
+    }
+
+    if (isColumnFull(gb, ipt))
+    {
+        printf("/// The column is full! Please choose another column! ///\n");
+        return getInputFromPlayerC4(gb, player);
+    }
+
+    // Input validation passed
+    return ipt;
 }
 
 // When a token is inserted, evaluate if it is a winning move
@@ -206,6 +243,18 @@ int evaluateMove(GameBoardC4 *gb, int col)
     return 0;
 }
 
+void onStartTurnC4(Player *player)
+{
+    if (player->type == Human)
+    {
+        printf("Player %d's turn\n", player->id + 1);
+    }
+    else
+    {
+        printf("Computer's turn\n");
+    }
+}
+
 // Invoke to start the game loop.
 // p2Type: The type of player2. Either Human(0) or Computer(1).
 void startConnect4(PlayerType p2Type)
@@ -219,6 +268,24 @@ void startConnect4(PlayerType p2Type)
     // Initialize players
     Player _p[2] = {newPlayer(0, Human),
                     newPlayer(1, Computer)};
+    Player *player[2] = {&_p[0], &_p[1]};
+
+    int currentTurn = 1; // current turn. 0 => player 1, 1 => player 2
+    int gameEnded = 0;
+
+    int ipt = 0;
+
+    while (!gameEnded)
+    {
+        printGameBoardC4(gameBoard);
+
+        // Switch turn
+        currentTurn = (currentTurn == 1) ? 0 : 1;
+
+        onStartTurnC4(player[currentTurn]);
+
+        ipt = getInputFromPlayerC4(gameBoard, player[currentTurn]);
+    }
 }
 #pragma endregion
 #endif // !Connect4
