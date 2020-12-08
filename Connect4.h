@@ -179,12 +179,12 @@ int evaluateMove(GameBoardC4 *gb, int col)
 {
     // Evaluate tokens within 4 radius, find if there is 4 same type of token connected
     int count = 0;
-    int *center = &gb->board[gb->counts[col] - 1][col];
+    int token = gb->board[gb->counts[col] - 1][col];
 
     // Check Horizontal
     for (int i = 0; i < 7; i++)
     {
-        if (gb->board[gb->counts[col] - 1][i] == *center)
+        if (gb->board[gb->counts[col] - 1][i] == token)
         {
             if (++count >= 4)
                 return 1;
@@ -198,7 +198,7 @@ int evaluateMove(GameBoardC4 *gb, int col)
     // Check Vertical
     for (int i = 0; i < 6; i++)
     {
-        if (gb->board[i][col] == *center)
+        if (gb->board[i][col] == token)
         {
             if (++count >= 4)
                 return 1;
@@ -210,15 +210,18 @@ int evaluateMove(GameBoardC4 *gb, int col)
     }
 
     // Check Diagonal
-    int startCol = gb->counts[col] - col + 1;
+    int height = gb->counts[col] - 1;
+
+    int startCol = col - height;
     startCol = (startCol < 0) ? 0 : startCol;
-    int startRow = col - gb->counts[col] + 1;
+
+    int startRow = height - col;
     startRow = (startRow < 0) ? 0 : startRow;
 
     // slash
     for (int r = startRow, c = startCol; r < 6 && c < 7; r++, c++)
     {
-        if (gb->board[r][c] == *center)
+        if (gb->board[r][c] == token)
         {
             if (++count >= 4)
                 return 1;
@@ -230,14 +233,15 @@ int evaluateMove(GameBoardC4 *gb, int col)
     }
 
     // Backslash
-    startCol = col + gb->counts[col] - 1;
+    startCol = col + height;
     startCol = (startCol > 6) ? 6 : startCol;
-    startRow = gb->counts[col] - (6 - col) - 1;
+
+    startRow = height - (6 - col);
     startRow = (startRow < 0) ? 0 : startRow;
 
     for (int r = startRow, c = startCol; r < 6 && c >= 0; r++, c--)
     {
-        if (gb->board[r][c] == *center)
+        if (gb->board[r][c] == token)
         {
             if (++count >= 4)
                 return 1;
