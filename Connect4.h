@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include "Input.h"
 #include "TikTacToe.h"
 #include "Genetic.h"
@@ -101,7 +103,7 @@ int isFullC4(GameBoardC4 *gb)
     // Check every column
     for (int i = 0; i < 7; i++)
     {
-        if (gb->counts[i] == EMPTY)
+        if (gb->counts[i] < 6)
             return 0;
     }
 
