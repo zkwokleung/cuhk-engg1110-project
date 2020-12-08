@@ -375,7 +375,7 @@ void startTikTacToe(PlayerType p2Type)
         // Place mark
         placeMark(gameBoard, p, player[currentTurn]->mark);
 
-        cls();
+        printf("\n\n");
     }
 
     // Show end game report. Pass in NULL if no winner

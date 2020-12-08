@@ -305,7 +305,7 @@ void startConnect4(PlayerType p2Type)
         hasWinner = evaluateMove(gameBoard, ipt);
         gameEnded = hasWinner || isFullC4(gameBoard);
 
-        cls();
+        printf("\n\n");
     }
 
     // winner
