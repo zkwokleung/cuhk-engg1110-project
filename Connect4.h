@@ -268,7 +268,7 @@ void startConnect4(PlayerType p2Type)
 
     // Initialize players
     Player _p[2] = {newPlayer(0, Human),
-                    newPlayer(1, Computer)};
+                    newPlayer(1, p2Type)};
     Player *player[2] = {&_p[0], &_p[1]};
 
     int currentTurn = 1; // current turn. 0 => player 1, 1 => player 2
