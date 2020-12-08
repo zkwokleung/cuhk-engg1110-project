@@ -238,6 +238,7 @@ int getInputFromHuman()
 {
     // Print message
     printf("Place your mark on an empty space!\n");
+
     return getNumberInput();
 }
 
@@ -253,8 +254,8 @@ int getInputFromComputer(GameBoard *board)
         }
     }
 
-    printf("!!!!! Fatal ERROR, game board is fulled but still asking for computer input !!!!!\n");
-    return -1; // The game board is fulled, and this function should not even be called
+    printf("!!!!! Fatal ERROR, game board is fulled but still asking for computer input !!!!!\n"); // This line is actually never executed
+    return -1;                                                                                     // The game board is fulled, and this function should not even be called
 }
 
 //-------------------------------
@@ -273,6 +274,13 @@ Position getInputFromPlayer(GameBoard *gameBoard, Player *player)
     {
         // Computer player
         ipt = getInputFromComputer(gameBoard);
+    }
+
+    // Validate input
+    if (ipt == 0)
+    {
+        printf("/// Invalid input! The number should not be 0!///\n");
+        return getInputFromPlayer(gameBoard, player);
     }
 
     // Convert the input to Position

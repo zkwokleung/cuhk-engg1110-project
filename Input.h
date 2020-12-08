@@ -50,7 +50,7 @@ int getNumberInput()
 
     // Invalid Input.
     // Recursively ask the player until there is a valid input
-    printf("/// Invalid input! Input must between 0 and 9! /// \n");
+    printf("/// Invalid input! Only numberic characters allowed! /// \n");
     return getNumberInput();
 }
 
