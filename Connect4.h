@@ -9,20 +9,23 @@
 #pragma region Connect4
 // GameMode: Connect 4
 // Since there is no class in C, we added the postfix "C4" to all the related functions.
-// In this gamemode, a mark is considered to be a coin.
+// In this gamemode, a mark is considered to be a token.
 // ***************************************************
 // ************** Gameplay Description ***************
 // ***************************************************
 /*
-    A player choose a column to put the coin, 
-    and the coin will fall to the bottom of the column.
-    The first player who connected 4 coins, either vertically, horizontally or diagonally, will win the game.
+    A player choose a column to put the token, 
+    and the token will fall to the bottom of the column.
+    The first player who connected 4 tokens, either vertically, horizontally or diagonally, will win the game.
 */
+// Function prototypes
+void startConnect4(PlayerType p2Type);
+
 typedef struct s_gameboardc4
 {
     int board[6][7]; // The Game Board. Each column is a pseudo-stack
                      // Index: [row][col]
-    int counts[7];   // Counting how many coins is in each column.
+    int counts[7];   // Counting how many tokens is in each column.
 } GameBoardC4;
 
 GameBoardC4 newGameBaordC4()
@@ -107,7 +110,7 @@ int isFullC4(GameBoardC4 *gb)
 
 // Insert a mark into a column of the board
 // Return 1 if successfully inserted, return 0 otherwise
-int insertCoin(GameBoardC4 *gb, int col, int mark)
+int insertToken(GameBoardC4 *gb, int col, int mark)
 {
     // Input validation
     if (col < 0 || col > 6 || isColumnFull(gb, col))
@@ -120,19 +123,18 @@ int insertCoin(GameBoardC4 *gb, int col, int mark)
 
 int getInputFromHumanC4()
 {
-    printf("Place a coin on a column!");
+    printf("Place a token on a column!");
     return getNumberInput();
 }
 
-// When a coin is inserted, evaluate if it is a winning move
-// Accept the game board and the column where the coin was inserted
+// When a token is inserted, evaluate if it is a winning move
+// Accept the game board and the column where the token was inserted
 // Return 1 if it is a winning move, 0 otherwise
 int evaluateMove(GameBoardC4 *gb, int col)
 {
-    // Evaluate coins within 4 radius, find if there is 4 same type of coin connected
+    // Evaluate tokens within 4 radius, find if there is 4 same type of token connected
     int count = 0;
     int *center = &gb->board[gb->counts[col] - 1][col];
-    int *pivot;
 
     // Check Horizontal
     for (int i = 0; i < 7; i++)
@@ -163,8 +165,60 @@ int evaluateMove(GameBoardC4 *gb, int col)
     }
 
     // Check Diagonal
+    int startCol = gb->counts[col] - col + 1;
+    startCol = (startCol < 0) ? 0 : startCol;
+    int startRow = col - gb->counts[col] + 1;
+    startRow = (startRow < 0) ? 0 : startRow;
+
+    // slash
+    for (int r = startRow, c = startCol; r < 6 && c < 7; r++, c++)
+    {
+        if (gb->board[r][c] == *center)
+        {
+            if (++count >= 4)
+                return 1;
+        }
+        else
+        {
+            count = 0;
+        }
+    }
+
+    // Backslash
+    startCol = col + gb->counts[col] - 1;
+    startCol = (startCol > 6) ? 6 : startCol;
+    startRow = gb->counts[col] - (6 - col) - 1;
+    startRow = (startRow < 0) ? 0 : startRow;
+
+    for (int r = startRow, c = startCol; r < 6 && c >= 0; r++, c--)
+    {
+        if (gb->board[r][c] == *center)
+        {
+            if (++count >= 4)
+                return 1;
+        }
+        else
+        {
+            count = 0;
+        }
+    }
 
     return 0;
+}
+
+// Invoke to start the game loop.
+// p2Type: The type of player2. Either Human(0) or Computer(1).
+void startConnect4(PlayerType p2Type)
+{
+    cls();
+
+    // Initialize game data
+    GameBoardC4 _gb = newGameBaordC4();
+    GameBoardC4 *gameBoard = &_gb;
+
+    // Initialize players
+    Player _p[2] = {newPlayer(0, Human),
+                    newPlayer(1, Computer)};
 }
 #pragma endregion
 #endif // !Connect4
