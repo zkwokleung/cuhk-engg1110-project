@@ -271,10 +271,10 @@ void startConnect4(PlayerType p2Type)
                     newPlayer(1, Computer)};
     Player *player[2] = {&_p[0], &_p[1]};
 
-    int currentTurn = 1;   // current turn. 0 => player 1, 1 => player 2
-    int gameEnded = 0;     // Is the game over.
-    int ipt = 0;           // Input buffer
-    int isWinningMove = 0; // 0 if no winner, 1 otherwise
+    int currentTurn = 1; // current turn. 0 => player 1, 1 => player 2
+    int gameEnded = 0;   // Is the game over.
+    int ipt = 0;         // Input buffer
+    int hasWinner = 0;   // 0 if no winner, 1 otherwise
 
     while (!gameEnded)
     {
@@ -291,11 +291,28 @@ void startConnect4(PlayerType p2Type)
         insertToken(gameBoard, ipt, player[currentTurn]->mark);
 
         // Check if the game should end
-        isWinningMove = evaluateMove(gameBoard, ipt);
-        gameEnded = isWinningMove || isFullC4(gameBoard);
+        hasWinner = evaluateMove(gameBoard, ipt);
+        gameEnded = hasWinner || isFullC4(gameBoard);
+
+        cls();
     }
 
     // winner
+    if (hasWinner)
+    {
+        displayEndGameReport(player[currentTurn]);
+    }
+    else
+    {
+        displayEndGameReport(NULL);
+    }
+
+    printGameBoardC4(gameBoard);
+
+    // Pause the program until the player pressed Enter key
+    waitForEnterKey();
+
+    // Game Loop ended. Return back to where the function is called
 }
 #pragma endregion
 #endif // !Connect4
