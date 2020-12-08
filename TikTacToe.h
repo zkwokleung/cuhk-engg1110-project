@@ -14,7 +14,8 @@
 //-------------------------------
 // Structures
 //-------------------------------
-// Position struct, storing the x(col) and y(row) position for the game board.
+
+// Position struct, storing the col and row position for the game board.
 typedef struct s_position
 {
     int row, col;
@@ -242,20 +243,25 @@ int getInputFromHuman()
     return getNumberInput();
 }
 
-int getInputFromComputer(GameBoard *board)
+// Return a random empty square
+int getInputFromComputer(GameBoard *gb)
 {
-    // Loop through the board to find a empty space
-    for (int i = 0; i < 3; i++)
+    if (isFull(gb))
     {
-        for (int j = 0; j < 3; j++)
-        {
-            if (board->board[i][j] == EMPTY)
-                return 3 * i + j + 1;
-        }
+        // The game board is fulled, and this function should not even be called
+        printf("!!!!! Fatal ERROR, game board is fulled but still asking for computer input !!!!!\n");
+        return -1;
+        // The above lines is actually never executed
     }
 
-    printf("!!!!! Fatal ERROR, game board is fulled but still asking for computer input !!!!!\n"); // This line is actually never executed
-    return -1;                                                                                     // The game board is fulled, and this function should not even be called
+    int ipt = 0;
+
+    do
+    {
+        ipt = getRandomInt(10) + 1;
+    } while (getMark(gb, getPositionByNumber(ipt)) != EMPTY);
+
+    return ipt;
 }
 
 //-------------------------------
@@ -329,9 +335,9 @@ void displayEndGameReport(Player *winner)
     if (winner != NULL)
     {
         // Display winner's info
-        printf("||\n");
-        printf("|| Winner: Player %d\n", winner->id + 1);
-        printf("||\n");
+        printf("||                          ||\n");
+        printf("||   Winner: Player %d       ||\n", winner->id + 1);
+        printf("||                          ||\n");
     }
     else
     {
