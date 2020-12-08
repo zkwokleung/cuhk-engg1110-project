@@ -18,16 +18,16 @@
 typedef struct s_position
 {
     int row, col;
-} Position_TTT;
+} Position;
 
 // Constructor of Position
-Position_TTT newPosition(int row, int col)
+Position new_Position(int row, int col)
 {
-    Position_TTT v = {row, col};
+    Position v = {row, col};
     return v;
 }
 
-void printPosition(Position_TTT p)
+void printPosition(Position p)
 {
     printf("row: %d, col: %d\n", p.row, p.col);
 }
@@ -39,29 +39,6 @@ typedef struct s_tttgameboard
     int board[3][3]; // The game board
     int marked;      // how many squares are marked.
 } GameBoard_TTT;
-
-// Enum for indentifing the player's type.
-typedef enum
-{
-    Human = 0,
-    Computer = 1
-} PlayerType;
-
-// Storing the information of a Player
-typedef struct s_player
-{
-    int id;
-    PlayerType type;
-    int move;
-    int mark;
-} Player;
-
-Player newPlayer(int id, PlayerType type)
-{
-    Player p = {id, type, 0};
-    p.mark = id + 1; // id = 0: CIRCLE, id = 1: CROSS
-    return p;
-}
 
 //-------------------------------
 // Function prototypes
@@ -104,34 +81,34 @@ int isFull_TTT(GameBoard_TTT *gameBoard)
 }
 
 // Get the mark from the board
-int getMark_TTT(GameBoard_TTT *gameBoard, Position_TTT pos)
+int getMark_TTT(GameBoard_TTT *gameBoard, Position pos)
 {
     return gameBoard->board[pos.row][pos.col];
 }
 
 // Return true if the specific square is empty
-int isMarked(GameBoard_TTT *gameBoard, Position_TTT pos)
+int isMarked_TTT(GameBoard_TTT *gameBoard, Position pos)
 {
     return getMark_TTT(gameBoard, pos) != EMPTY;
 }
 
 // Get the number of the squre by the array index.
-int getNumberByPosition(Position_TTT pos)
+int getNumberByPosition_TTT(Position pos)
 {
     return 3 * pos.row + pos.col + 1;
 }
 
 // Get the position on board by the squre number.
-Position_TTT getPositionByNumber(int num)
+Position getPositionByNumber_TTT(int num)
 {
     // Verify the input
     if (num < 1 || num > 9)
     {
         printf("Invalid square number!");
-        return newPosition(-1, -1);
+        return new_Position(-1, -1);
     }
 
-    return newPosition((num - 1) / 3, (num - 1) % 3);
+    return new_Position((num - 1) / 3, (num - 1) % 3);
 }
 
 int hasWinner_TTT(GameBoard_TTT *gameBoard)
@@ -174,7 +151,7 @@ void printGameBoard_TTT(GameBoard_TTT *gameBoard)
         {
             if (gameBoard->board[row][col] == EMPTY) // Empty. Print out the number
             {
-                printf("|%d| ", getNumberByPosition(newPosition(row, col)));
+                printf("|%d| ", getNumberByPosition_TTT(new_Position(row, col)));
             }
             else if (gameBoard->board[row][col] == CIRCLE) // Circle. Print 'O'
             {
@@ -222,7 +199,7 @@ void debug_PrintGameBoard_TTT(GameBoard_TTT *gb)
 #pragma endregion
 
 // Base function of placing a mark on a board
-void placeMark_TTT(GameBoard_TTT *gameBoard, Position_TTT pos, int mark)
+void placeMark_TTT(GameBoard_TTT *gameBoard, Position pos, int mark)
 {
     // Mark the game board
     gameBoard->board[pos.row][pos.col] = mark;
@@ -258,7 +235,7 @@ int getInputFromComputer_TTT(GameBoard_TTT *gb)
     do
     {
         ipt = getRandomInt(10) + 1;
-    } while (getMark_TTT(gb, getPositionByNumber(ipt)) != EMPTY);
+    } while (getMark_TTT(gb, getPositionByNumber_TTT(ipt)) != EMPTY);
 
     return ipt;
 }
@@ -267,7 +244,7 @@ int getInputFromComputer_TTT(GameBoard_TTT *gb)
 // Game Logic
 //-------------------------------
 // Get the input from the player and return it as a position in game board
-Position_TTT getInputFromPlayer_TTT(GameBoard_TTT *gameBoard, Player *player)
+Position getInputFromPlayer_TTT(GameBoard_TTT *gameBoard, Player *player)
 {
     int ipt = 0;
     if (player->type == Human)
@@ -289,10 +266,10 @@ Position_TTT getInputFromPlayer_TTT(GameBoard_TTT *gameBoard, Player *player)
     }
 
     // Convert the input to Position
-    Position_TTT p = getPositionByNumber(ipt);
+    Position p = getPositionByNumber_TTT(ipt);
 
     // Verify the Input
-    if (isMarked(gameBoard, p))
+    if (isMarked_TTT(gameBoard, p))
     {
         // The square is marked. Ask for another input.
         printf("/// The square [%d] has been marked! Choose another square! ///\n", ipt);
@@ -309,45 +286,6 @@ Position_TTT getInputFromPlayer_TTT(GameBoard_TTT *gameBoard, Player *player)
     return p;
 }
 
-// Call when before the player start its turn
-void onStartTurn(Player *player)
-{
-    // Promp start turn message
-    if (player->type == Human)
-    {
-        // Human
-        printf("Player %d's turn . . .\n", player->id + 1);
-    }
-    else
-    {
-        // Computer
-        printf("Computer's turn . . .\n");
-    }
-}
-
-// Display the end game report
-void displayEndGameReport(Player *winner)
-{
-    printf("||||||||||||||||||||||||||||||\n");
-    printf("||         Game Over        ||\n");
-    printf("||||||||||||||||||||||||||||||\n");
-    if (winner != NULL)
-    {
-        // Display winner's info
-        printf("||                          ||\n");
-        printf("||   Winner: Player %d       ||\n", winner->id + 1);
-        printf("||                          ||\n");
-    }
-    else
-    {
-        // Draw game
-        printf("||                          ||\n");
-        printf("||           Draw           ||\n");
-        printf("||                          ||\n");
-    }
-    printf("||||||||||||||||||||||||||||||\n");
-}
-
 // Invoke to start the Tik Tac Toe game loop.
 // p2: the player type of player 2. Human => 0; Computer => 1
 void startTikTacToe(PlayerType p2Type)
@@ -358,8 +296,8 @@ void startTikTacToe(PlayerType p2Type)
     GameBoard_TTT *gameBoard = &_gb;
 
     // Intialize players
-    Player _p[2] = {newPlayer(0, Human),
-                    newPlayer(1, p2Type)}; // Array to store the players
+    Player _p[2] = {new_Player(0, Human),
+                    new_Player(1, p2Type)}; // Array to store the players
 
     Player *player[2] = {&_p[0], &_p[1]}; // Pointer array of the players
 
@@ -375,7 +313,7 @@ void startTikTacToe(PlayerType p2Type)
         onStartTurn(player[currentTurn]);
 
         // Ask for Input
-        Position_TTT p = getInputFromPlayer_TTT(gameBoard, player[currentTurn]);
+        Position p = getInputFromPlayer_TTT(gameBoard, player[currentTurn]);
 
         // Place mark
         placeMark_TTT(gameBoard, p, player[currentTurn]->mark);
