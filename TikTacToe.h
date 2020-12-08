@@ -227,14 +227,14 @@ int getInputFromComputer_TTT(GameBoard_TTT *gb)
         // The game board is fulled, and this function should not even be called
         printf("!!!!! Fatal ERROR, game board is fulled but still asking for computer input !!!!!\n");
         return -1;
-        // The above lines is actually never executed
+        // The above lines is actually never executed because the loop is perfect.
     }
 
     int ipt = 0;
 
     do
     {
-        ipt = getRandomInt(10) + 1;
+        ipt = getRandomInt(9) + 1;
     } while (getMark_TTT(gb, getPositionByNumber_TTT(ipt)) != EMPTY);
 
     return ipt;
