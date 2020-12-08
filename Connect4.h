@@ -195,6 +195,8 @@ int evaluateMove(GameBoardC4 *gb, int col)
         }
     }
 
+    count = 0;
+
     // Check Vertical
     for (int i = 0; i < 6; i++)
     {
@@ -208,6 +210,8 @@ int evaluateMove(GameBoardC4 *gb, int col)
             count = 0;
         }
     }
+
+    count = 0;
 
     // Check Diagonal
     int height = gb->counts[col] - 1;
@@ -231,6 +235,8 @@ int evaluateMove(GameBoardC4 *gb, int col)
             count = 0;
         }
     }
+
+    count = 0;
 
     // Backslash
     startCol = col + height;
