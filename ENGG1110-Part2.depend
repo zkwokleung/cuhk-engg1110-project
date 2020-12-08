@@ -12,27 +12,38 @@
 1606400085 c:\git\engg1110 - codeblocks\engg1110-part2\input.h
 	<stdio.h>
 
-1606742031 source:c:\git\engg1110\projectpart2_1155149068.c
+1607432665 source:c:\git\engg1110\projectpart2_1155149068.c
 	<stdio.h>
 	<stdlib.h>
+	<time.h>
 	<string.h>
 	"Menu.h"
 	"Input.h"
 
-1607182086 c:\git\engg1110\menu.h
+1607431701 c:\git\engg1110\menu.h
 	<stdio.h>
 	<stdlib.h>
 	"Input.h"
 	"TikTacToe.h"
+	"Connect4.h"
 
-1607182268 c:\git\engg1110\input.h
+1607431118 c:\git\engg1110\input.h
 	<stdio.h>
 
-1607182087 c:\git\engg1110\tiktactoe.h
+1607431118 c:\git\engg1110\tiktactoe.h
 	<stdio.h>
 	"Input.h"
 	"Genetic.h"
 
-1606799541 c:\git\engg1110\genetic.h
+1607432707 c:\git\engg1110\genetic.h
 	<stdio.h>
+	<stdlib.h>
+
+1607434989 c:\git\engg1110\connect4.h
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"Input.h"
+	"TikTacToe.h"
+	"Genetic.h"
 
