@@ -66,8 +66,6 @@ Player newPlayer(int id, PlayerType type)
 //-------------------------------
 // Function prototypes
 //-------------------------------
-void startNewSinglePlayerGame();
-void startNewMultiPlayerGame();
 void initGameBoard(GameBoard *);
 
 //-------------------------------
@@ -240,6 +238,7 @@ int getInputFromHuman()
 {
     // Print message
     printf("Place your mark on an empty space!\n");
+
     return getNumberInput();
 }
 
@@ -255,8 +254,8 @@ int getInputFromComputer(GameBoard *board)
         }
     }
 
-    printf("!!!!! Fatal ERROR, game board is fulled but still asking for computer input !!!!!\n");
-    return -1; // The game board is fulled, and this function should not even be called
+    printf("!!!!! Fatal ERROR, game board is fulled but still asking for computer input !!!!!\n"); // This line is actually never executed
+    return -1;                                                                                     // The game board is fulled, and this function should not even be called
 }
 
 //-------------------------------
@@ -275,6 +274,13 @@ Position getInputFromPlayer(GameBoard *gameBoard, Player *player)
     {
         // Computer player
         ipt = getInputFromComputer(gameBoard);
+    }
+
+    // Validate input
+    if (ipt == 0)
+    {
+        printf("/// Invalid input! The number should not be 0!///\n");
+        return getInputFromPlayer(gameBoard, player);
     }
 
     // Convert the input to Position
@@ -315,24 +321,25 @@ void onStartTurn(Player *player)
 }
 
 // Display the end game report
-void displayEndGameReport(GameBoard *board, Player *winner)
+void displayEndGameReport(Player *winner)
 {
     printf("||||||||||||||||||||||||||||||\n");
     printf("||         Game Over        ||\n");
     printf("||||||||||||||||||||||||||||||\n");
-    printf("||\n");
     if (winner != NULL)
     {
         // Display winner's info
+        printf("||\n");
         printf("|| Winner: Player %d\n", winner->id + 1);
         printf("||\n");
     }
     else
     {
         // Draw game
-        printf("||           Draw\n");
+        printf("||                          ||\n");
+        printf("||           Draw           ||\n");
+        printf("||                          ||\n");
     }
-    printf("||\n");
     printf("||||||||||||||||||||||||||||||\n");
 }
 
@@ -340,14 +347,14 @@ void displayEndGameReport(GameBoard *board, Player *winner)
 // p2: the player type of player 2. Human => 0; Computer => 1
 void startTikTacToe(PlayerType p2Type)
 {
+    cls();
     // Initialize game data
     GameBoard _gb = newGameBoard();
     GameBoard *gameBoard = &_gb;
 
     // Intialize players
-    Player _p[2]; // Array to store the players
-    _p[0] = newPlayer(0, Human);
-    _p[1] = newPlayer(1, p2Type);
+    Player _p[2] = {newPlayer(0, Human),
+                    newPlayer(1, p2Type)}; // Array to store the players
 
     Player *player[2] = {&_p[0], &_p[1]}; // Pointer array of the players
 
@@ -368,11 +375,11 @@ void startTikTacToe(PlayerType p2Type)
         // Place mark
         placeMark(gameBoard, p, player[currentTurn]->mark);
 
-        cls();
+        printf("\n\n");
     }
 
     // Show end game report. Pass in NULL if no winner
-    displayEndGameReport(gameBoard, hasWinner(gameBoard) ? player[currentTurn] : NULL);
+    displayEndGameReport(hasWinner(gameBoard) ? player[currentTurn] : NULL);
 
     printGameBoard(gameBoard);
 

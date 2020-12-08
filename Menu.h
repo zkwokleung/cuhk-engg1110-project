@@ -2,12 +2,14 @@
 #include <stdlib.h>
 #include "Input.h"
 #include "TikTacToe.h"
+#include "Connect4.h"
 
 #ifndef MENU
 #define MENU
 #pragma region Menu
 void startMainMenu();
-void startNewGameMenu();
+void startTTTMenu();
+void startC4Menu();
 
 // Main Menu
 void printMainMenu()
@@ -15,9 +17,9 @@ void printMainMenu()
     printf("==============================\n");
     printf("||  Welcome to my project!  ||\n");
     printf("==============================\n");
-    printf("|| Choose and option:       ||\n");
-    printf("||  [1] New game            ||\n");
-    printf("||  [2] Load game           ||\n");
+    printf("|| Choose a game mode:      ||\n");
+    printf("||  [1] Tik-Tac-Toe         ||\n");
+    printf("||  [2] Connect 4           ||\n");
     printf("||  [0] Exit                ||\n");
     printf("------------------------------\n");
 }
@@ -28,11 +30,11 @@ void evaluateMainMenuInput(int input)
     switch (input)
     {
     case 1:
-        startNewGameMenu();
+        startTTTMenu();
         break;
 
     case 2:
-
+        startC4Menu();
         break;
 
     case 0:
@@ -49,6 +51,7 @@ void evaluateMainMenuInput(int input)
 // Initialize and display the main menu
 void startMainMenu()
 {
+    cls();
     int ended = 0;
     while (!ended)
     {
@@ -60,20 +63,33 @@ void startMainMenu()
     }
 }
 
-// New Game MENU
-void printNewGameMenu()
+void printGeneticGameOptions()
 {
-    printf("==============================\n");
-    printf("||         New Game         ||\n");
-    printf("==============================\n");
-    printf("|| Choose and option:       ||\n");
+    printf("|| Choose an option:        ||\n");
     printf("||  [1] Single Player       ||\n");
     printf("||  [2] Multiplayer         ||\n");
     printf("||  [0] Back                ||\n");
     printf("------------------------------\n");
 }
 
-void evaluateNewGameMenuInput(int input)
+// New Game MENU
+void printTTTMenu()
+{
+    printf("==============================\n");
+    printf("||       Tik-Tac-Toe        ||\n");
+    printf("==============================\n");
+    printGeneticGameOptions();
+}
+
+void printC4Menu()
+{
+    printf("==============================\n");
+    printf("||        Connect 4         ||\n");
+    printf("==============================\n");
+    printGeneticGameOptions();
+}
+
+void evaluateTTTMenuInput(int input)
 {
     switch (input)
     {
@@ -92,18 +108,56 @@ void evaluateNewGameMenuInput(int input)
     default:
         // Invalid input. Recursively call until received valid input
         printf("/// Option Unavailable! ///\n");
-        evaluateNewGameMenuInput(getNumberInput());
+        evaluateTTTMenuInput(getNumberInput());
     }
 }
 
-// Initialize the new game menu
-void startNewGameMenu()
+void evaluateC4MenuInput(int input)
 {
+    switch (input)
+    {
+    case 1:
+        startConnect4(Computer);
+        break;
+
+    case 2:
+        startConnect4(Human);
+        break;
+
+    case 0:
+        // Return to the main menu
+        return;
+
+    default:
+        // Invalid input. Recursively call until received valid input
+        printf("/// Option Unavailable! ///\n");
+        evaluateTTTMenuInput(getNumberInput());
+    }
+}
+
+// Initialize the game menu
+void startTTTMenu()
+{
+    cls();
     // Display options
-    printNewGameMenu();
+    printTTTMenu();
 
     // Get user Input
-    evaluateNewGameMenuInput(getNumberInput());
+    evaluateTTTMenuInput(getNumberInput());
+
+    // Always return to the main menu after the inner loop completed
+    startMainMenu();
+}
+
+void startC4Menu()
+{
+    cls();
+
+    // Display options
+    printC4Menu();
+
+    //Get user Input
+    evaluateC4MenuInput(getNumberInput());
 
     // Always return to the main menu after the inner loop completed
     startMainMenu();

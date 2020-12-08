@@ -11,6 +11,8 @@ char getChar()
     char ipt;      // Storage for the last entered
     int count = 0; // Counting how many character has been typed.
 
+    printf("> ");
+
     // Keep reading the input until there is a enter key
     while (1)
     {
@@ -50,7 +52,7 @@ int getNumberInput()
 
     // Invalid Input.
     // Recursively ask the player until there is a valid input
-    printf("/// Invalid input! Input must between 0 and 9! /// \n");
+    printf("/// Invalid input! Only numberic characters allowed! /// \n");
     return getNumberInput();
 }
 
