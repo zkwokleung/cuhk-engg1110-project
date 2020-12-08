@@ -131,6 +131,7 @@ int getInputFromHumanC4()
 int getInputFromComputerC4(GameBoardC4 *gb)
 {
     // TODO: implement
+
     return 0;
 }
 
@@ -261,7 +262,7 @@ void startConnect4(PlayerType p2Type)
 {
     cls();
 
-    // Initialize game data
+    // Initialize game board
     GameBoardC4 _gb = newGameBaordC4();
     GameBoardC4 *gameBoard = &_gb;
 
@@ -270,10 +271,10 @@ void startConnect4(PlayerType p2Type)
                     newPlayer(1, Computer)};
     Player *player[2] = {&_p[0], &_p[1]};
 
-    int currentTurn = 1; // current turn. 0 => player 1, 1 => player 2
-    int gameEnded = 0;
-
-    int ipt = 0;
+    int currentTurn = 1;   // current turn. 0 => player 1, 1 => player 2
+    int gameEnded = 0;     // Is the game over.
+    int ipt = 0;           // Input buffer
+    int isWinningMove = 0; // 0 if no winner, 1 otherwise
 
     while (!gameEnded)
     {
@@ -282,10 +283,19 @@ void startConnect4(PlayerType p2Type)
         // Switch turn
         currentTurn = (currentTurn == 1) ? 0 : 1;
 
+        // Start turn. Prompt message
         onStartTurnC4(player[currentTurn]);
 
+        // Input handling. Input validation is done by the function logic
         ipt = getInputFromPlayerC4(gameBoard, player[currentTurn]);
+        insertToken(gameBoard, ipt, player[currentTurn]->mark);
+
+        // Check if the game should end
+        isWinningMove = evaluateMove(gameBoard, ipt);
+        gameEnded = isWinningMove || isFullC4(gameBoard);
     }
+
+    // winner
 }
 #pragma endregion
 #endif // !Connect4
