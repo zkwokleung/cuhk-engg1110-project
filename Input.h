@@ -58,8 +58,9 @@ int getNumberInput()
 
 // Get confirmation from the user
 // Y: invoke the callback and return 1; N: return 0; otherwise: Ask again
-int getUserConfirm(void (*callback)())
+int getUserConfirm()
 {
+    printf("Are you sure? (Y/N) ");
     char ipt = getChar();
 
     switch (ipt)
@@ -74,7 +75,7 @@ int getUserConfirm(void (*callback)())
 
     default:
         printf("/// Invalid input! Please enter 'Y' for Yes and 'N' for No///\n");
-        return getUserConfirm(callback);
+        return getUserConfirm();
     }
 }
 

@@ -37,6 +37,11 @@ int main()
     // Initialize random number generator
     srand(time(NULL));
 
-    startMainMenu();
+    // Let the internal logic to terminate the program
+    while (1)
+    {
+        startMainMenu();
+    }
+
     return 0;
 }

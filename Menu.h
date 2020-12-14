@@ -38,7 +38,11 @@ void evaluateMainMenuInput(int input)
         break;
 
     case 0:
-        exit(0);
+        // Ask before exiting
+        if (getUserConfirm())
+        {
+            exit(0);
+        }
         break;
 
     default:
@@ -52,18 +56,14 @@ void evaluateMainMenuInput(int input)
 void startMainMenu()
 {
     cls();
-    int ended = 0;
-    while (!ended)
-    {
-        // Display Main menu
-        printMainMenu();
+    // Display Main menu
+    printMainMenu();
 
-        // Get user input
-        evaluateMainMenuInput(getNumberInput());
-    }
+    // Get user input
+    evaluateMainMenuInput(getNumberInput());
 }
 
-void printGeneticGameOptions()
+void printGenericGameOptions()
 {
     printf("|| Choose an option:        ||\n");
     printf("||  [1] Single Player       ||\n");
@@ -78,7 +78,7 @@ void printTTTMenu()
     printf("==============================\n");
     printf("||       Tik-Tac-Toe        ||\n");
     printf("==============================\n");
-    printGeneticGameOptions();
+    printGenericGameOptions();
 }
 
 void printC4Menu()
@@ -86,7 +86,7 @@ void printC4Menu()
     printf("==============================\n");
     printf("||        Connect 4         ||\n");
     printf("==============================\n");
-    printGeneticGameOptions();
+    printGenericGameOptions();
 }
 
 void evaluateTTTMenuInput(int input)
