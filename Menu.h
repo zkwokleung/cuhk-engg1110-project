@@ -38,7 +38,10 @@ void evaluateMainMenuInput(int input)
         break;
 
     case 0:
-        exit(0);
+        if (getUserConfirm())
+        {
+            exit(0);
+        }
         break;
 
     default:
@@ -51,10 +54,10 @@ void evaluateMainMenuInput(int input)
 // Initialize and display the main menu
 void startMainMenu()
 {
-    cls();
     int ended = 0;
     while (!ended)
     {
+        cls();
         // Display Main menu
         printMainMenu();
 
