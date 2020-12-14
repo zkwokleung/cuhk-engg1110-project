@@ -52,7 +52,7 @@ int getNumberInput()
 
     // Invalid Input.
     // Recursively ask the player until there is a valid input
-    printf("/// Invalid input! Only numberic characters allowed! /// \n");
+    printf("/// Invalid input! Only numeric characters allowed! /// \n");
     return getNumberInput();
 }
 
