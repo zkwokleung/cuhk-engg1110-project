@@ -29,11 +29,16 @@ char getChar()
         count++;
     }
 
+    // Invalid Input checking
+    // Recursively ask the player until there is a valid input
     if (count > 1) // CONDITION: more than one character input
     {
-        // Invalid Input
-        // Recursively ask the player until there is a valid input
         printf("/// Invalid Input! Please enter 1 character each time! ///\n");
+        return getChar();
+    }
+    else if (count < 1) // CONDITION: No character Input
+    {
+        printf("/// You must enter 1 character! ///\n");
         return getChar();
     }
 
