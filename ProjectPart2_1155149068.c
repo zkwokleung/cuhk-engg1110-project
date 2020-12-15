@@ -26,7 +26,7 @@
 #include <time.h>
 #include <string.h>
 
-#pragma region Genetic
+#pragma region Generic
 
 #define EMPTY 0
 #define CIRCLE 1
@@ -72,7 +72,7 @@ Player new_Player(int id, PlayerType type)
     return p;
 }
 
-// Genetic Event
+// Generic Event
 // Call when before the player start its turn
 void onStartTurn(Player *player)
 {
@@ -403,7 +403,6 @@ void debug_PrintGameBoard_TTT(GameBoard_TTT *gb)
     }
     printf("======================================\n");
 }
-#pragma endregion
 
 // Base function of placing a mark on a board
 void placeMark_TTT(GameBoard_TTT *gameBoard, Position pos, int mark)
@@ -414,7 +413,6 @@ void placeMark_TTT(GameBoard_TTT *gameBoard, Position pos, int mark)
     // Increase the count
     gameBoard->marked++;
 }
-#pragma endregion
 
 // Get and verify the input until a valid input is received
 // Ignoring the player id
