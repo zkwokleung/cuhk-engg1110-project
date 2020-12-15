@@ -130,7 +130,7 @@ char getChar()
     {
         next = fgetc(stdin);
 
-        // Break there loop since the enter key is pressed.
+        // Break the loop since the enter key is pressed.
         if (next == '\n')
             break;
 
