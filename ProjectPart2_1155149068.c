@@ -738,7 +738,7 @@ int evaluateMove_C4(GameBoard_C4 *gb, int col)
     int startCol = col - height; // Which column to start evaluate
     startCol = (startCol < 0) ? 0 : startCol;
 
-    int startRow = height - col; //Which Row to start evaluate
+    int startRow = height - col; // Which Row to start evaluate
     startRow = (startRow < 0) ? 0 : startRow;
 
     // slash
