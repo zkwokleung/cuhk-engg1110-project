@@ -557,7 +557,7 @@ GameBoard_C4 new_GameBaord_C4()
     return gb;
 }
 
-void initGameBaord_C4(GameBoard_C4 *gb)
+void initGameBoard_C4(GameBoard_C4 *gb)
 {
     // Init the board
     for (int row = 0; row < 6; row++)
