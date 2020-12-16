@@ -678,7 +678,6 @@ int getInputFromPlayer_C4(GameBoard_C4 *gb, Player *player)
     if (ipt > 6)
     {
         printf("/// Invalid Input! Please enter the column number between 0 and 6! ///\n");
-        ;
         return getInputFromPlayer_C4(gb, player);
     }
 
