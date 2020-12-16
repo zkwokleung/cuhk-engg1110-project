@@ -61,7 +61,6 @@ typedef struct s_player
 {
     int id;
     PlayerType type;
-    int move;
     int mark;
 } Player;
 
@@ -545,8 +544,7 @@ void startTikTacToe(PlayerType p2Type)
 
 typedef struct s_gameboardc4
 {
-    int board[6][7]; // The Game Board. Each column is a pseudo-stack
-                     // Index: [row][col]
+    int board[6][7]; // The Game Board. Index: [row][col]
     int counts[7];   // Counting how many tokens is in each column.
 } GameBoard_C4;
 
